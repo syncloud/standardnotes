@@ -1,0 +1,5 @@
+#!/snap/rocketchat/current/python/bin/python
+
+from installer import Installer
+
+Installer().prepare_storage()

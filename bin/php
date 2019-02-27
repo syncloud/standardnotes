@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )
+
+if [ -z "$SNAP_COMMON" ]; then
+  echo "SNAP_COMMON environment variable must be set"
+  exit 1
+fi
+
+export LD_LIBRARY_PATH=${DIR}/php/lib
+export WP_CONFIG_DIR=${SNAP_COMMON}/config/wordpress
+${DIR}/php/bin/php -c ${SNAP_COMMON}/config/php.ini "$@"
