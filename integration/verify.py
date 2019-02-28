@@ -1,22 +1,12 @@
-import json
 import os
-import sys
-from os import listdir
-from os.path import dirname, join, exists, abspath, isdir
-import time
-from subprocess import check_output
-import pytest
 import shutil
+from os.path import dirname, join
+from subprocess import check_output
 
-from syncloudlib.integration.installer import local_install, wait_for_rest, local_remove, \
-    get_data_dir, get_app_dir, get_service_prefix, get_ssh_env_vars
-from syncloudlib.integration.loop import loop_device_cleanup
-from syncloudlib.integration.ssh import run_scp, run_ssh
-from syncloudlib.integration.hosts import add_host_alias
-from syncloudlib.integration import conftest
-
+import pytest
 import requests
-
+from syncloudlib.integration.hosts import add_host_alias
+from syncloudlib.integration.installer import local_install, wait_for_rest
 
 DEFAULT_DEVICE_PASSWORD = 'syncloud'
 LOGS_SSH_PASSWORD = DEFAULT_DEVICE_PASSWORD
