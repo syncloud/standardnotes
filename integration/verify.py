@@ -59,7 +59,7 @@ def test_start(module_setup, device, device_host, app, log_dir):
     os.mkdir(log_dir)
     add_host_alias(app, device_host)
     print(check_output('date', shell=True))
-    device.run_ssh('date', password=LOGS_SSH_PASSWORD)
+    device.run_ssh('date')
 
 
 def test_activate_device(device):
