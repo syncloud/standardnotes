@@ -1,25 +1,13 @@
 apps:
-  mariadb:
-    user: wordpress
-    command: bin/service.mariadb.sh start
+
+  server:
+    user: standardfile
+    command: bin/service.server.sh start
     daemon: simple
     plugs:
     - network
     - network-bind
     restart-condition: always
-    start-timeout: 600s
-    before: [php-fpm]
-    
-  php-fpm:
-    user: wordpress
-    command: bin/service.php-fpm.sh start
-    daemon: forking
-    plugs:
-    - network
-    - network-bind
-    restart-condition: always
-    post-start-command: bin/service.php-fpm.sh post-start
-    after: [mariadb]
     before: [nginx]
   
   nginx:
@@ -33,16 +21,10 @@ apps:
     pre-start-command: bin/service.nginx.sh pre-start
     stop-command: bin/service.nginx.sh stop
     post-start-command: bin/service.nginx.sh post-start
-    after: [php-fpm, mariadb]
-
-  wp-cli:
-    command: bin/wp-cli
-  
-  php:
-    command: bin/php
+    after: [server]
     
 confinement: strict
-description: Wordpress
+description: Notes
 grade: stable
-name: wordpress
-summary: Wordpress
+name: notes
+summary: notes
