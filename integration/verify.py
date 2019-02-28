@@ -32,7 +32,7 @@ def module_setup(request, device, data_dir, platform_data_dir, app_dir, log_dir,
 def module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir, app):
     platform_log_dir = join(log_dir, 'platform_log')
     os.mkdir(platform_log_dir)
-    device.scp_from_device('{0}/log/* {1}'.format(platform_data_dir, platform_log_dir))
+    device.scp_from_device('{0}/log/*'.format(platform_data_dir), platform_log_dir)
     
     device.run_ssh('mkdir {0}'.format(TMP_DIR), password=LOGS_SSH_PASSWORD)
     device.run_ssh('top -bn 1 -w 500 -c > {0}/top.log'.format(TMP_DIR))
@@ -49,8 +49,8 @@ def module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir, app):
   
     app_log_dir = join(log_dir, 'log')
     os.mkdir(app_log_dir)
-    device.scp_from_device('{0}/log/*.log {1}'.format(data_dir, app_log_dir))
-    device.scp_from_device('{0}/* {1}'.format(TMP_DIR, app_log_dir))
+    device.scp_from_device('{0}/log/*.log'.format(data_dir), app_log_dir)
+    device.scp_from_device('{0}/*'.format(TMP_DIR), app_log_dir)
     
 
 def test_start(module_setup, device_host, app, log_dir):
