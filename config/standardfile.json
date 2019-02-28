@@ -1,0 +1,8 @@
+{
+  "foreground": true,
+  "debug": false,
+  "socket": "{{ SNAP_DATA }}/standardfile.socket",
+  "noreg": false,
+  "cors": false,
+  "db": "{{ SNAP_DATA }}/database.sqlite"
+} 

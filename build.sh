@@ -12,7 +12,7 @@ export TMPDIR=/tmp
 export TMP=/tmp
 
 NAME=$1
-STANDARD_FILES_VERSION=0.3.3
+STANDARD_FILES_VERSION=0.4.1
 ARCH=$(uname -m)
 STANDARD_FILES_ARCH=64-bit
 if [[ ${ARCH} == "arm" ]]; then

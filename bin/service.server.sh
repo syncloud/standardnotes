@@ -7,11 +7,10 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-. ${DIR}/config/environment
-
 case $1 in
 start)
-    exec $DIR/bin/snandardfile -db ${SNAP_DATA}/database.sqlite -p ${STANDARD_PORT} -foreground
+    cd ${SNAP_DATA}/config
+    exec $DIR/bin/snandardfile
     ;;
 *)
     echo "not valid command"
