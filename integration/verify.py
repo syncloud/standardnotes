@@ -34,7 +34,7 @@ def module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir, app):
     os.mkdir(platform_log_dir)
     device.scp_from_device('{0}/log/*'.format(platform_data_dir), platform_log_dir)
     
-    device.run_ssh('mkdir {0}'.format(TMP_DIR), password=LOGS_SSH_PASSWORD)
+    device.run_ssh('mkdir {0}'.format(TMP_DIR))
     device.run_ssh('top -bn 1 -w 500 -c > {0}/top.log'.format(TMP_DIR))
     device.run_ssh('ps auxfw > {0}/ps.log'.format(TMP_DIR))
     device.run_ssh('netstat -nlp > {0}/netstat.log'.format(TMP_DIR))
