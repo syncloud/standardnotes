@@ -1,4 +1,4 @@
-#!/snap/wordpress/current/python/bin/python
+#!/snap/notes/current/python/bin/python
 
 import os, sys
 sys.path.append(os.path.join(os.environ['SNAP'], 'hooks'))
