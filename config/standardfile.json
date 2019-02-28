@@ -1,7 +1,7 @@
 {
   "foreground": true,
   "debug": false,
-  "socket": "{{ snap_data }}/standardfile.socket",
+  "socket": "{{ snap_common }}/web.socket",
   "noreg": false,
   "cors": false,
   "db": "{{ snap_data }}/database.sqlite"

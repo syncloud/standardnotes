@@ -40,7 +40,8 @@ class Installer:
             'app': APP_NAME,
             'app_dir': self.app_dir,
             'app_data_dir': self.app_data_dir,
-            'snap_data': os.environ['SNAP_DATA']
+            'snap_data': os.environ['SNAP_DATA'],
+            'snap_common': os.environ['SNAP_COMMON']
         }
         gen.generate_files(templates_path, config_path, variables)
 
