@@ -1,9 +1,9 @@
 import logging
-from os.path import isdir, join, isfile
-from subprocess import check_output
-import shutil
+import os
+from os.path import join, isfile
+
 from syncloudlib import fs, linux, gen, logger
-from syncloudlib.application import paths, urls, storage
+from syncloudlib.application import paths, storage
 
 APP_NAME = 'notes'
 
@@ -35,11 +35,12 @@ class Installer:
 
         templates_path = join(self.app_dir, 'config.templates')
         config_path = join(self.app_data_dir, 'config')
-                   
+
         variables = {
             'app': APP_NAME,
             'app_dir': self.app_dir,
-            'app_data_dir': self.app_data_dir
+            'app_data_dir': self.app_data_dir,
+            'snap_data': os.environ['SNAP_DATA']
         }
         gen.generate_files(templates_path, config_path, variables)
 
