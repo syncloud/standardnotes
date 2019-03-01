@@ -58,7 +58,7 @@ def test_activate_device(device):
 
 def test_install(app_archive_path, device_host, app_domain, device_password):
     local_install(device_host, device_password, app_archive_path)
-    wait_for_rest(requests.session(), app_domain, '/auth/params?email=example.com', 200, 10) 
+    wait_for_rest(requests.session(), app_domain, '/', 200, 10) 
 
 #def test_index(app_domain):
 #    response = requests.get('https://{0}'.format(app_domain), verify=False)                          
