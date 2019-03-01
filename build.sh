@@ -16,7 +16,7 @@ STANDARD_FILES_VERSION=0.4.1
 ARCH=$(uname -m)
 STANDARD_FILES_ARCH=64-bit
 if [[ ${ARCH} == "arm" ]]; then
-    STANDARD_FILES_ARCH=arm6
+    STANDARD_FILES_ARCH=arm7
 fi
 SNAP_ARCH=$(dpkg --print-architecture)
 VERSION=$2
