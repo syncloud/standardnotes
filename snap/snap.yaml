@@ -1,7 +1,7 @@
 apps:
 
   server:
-    user: standardfile
+    user: notes
     command: bin/service.server.sh start
     daemon: simple
     plugs:
