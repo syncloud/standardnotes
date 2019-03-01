@@ -6,7 +6,7 @@ from subprocess import check_output
 import pytest
 import requests
 from syncloudlib.integration.hosts import add_host_alias
-from syncloudlib.integration.installer import local_install, wait_for_rest
+from syncloudlib.integration.installer import local_install, wait_for_rest, wait_for_platform_web
 
 DEFAULT_DEVICE_PASSWORD = 'syncloud'
 LOGS_SSH_PASSWORD = DEFAULT_DEVICE_PASSWORD
@@ -51,7 +51,8 @@ def test_start(module_setup, device, device_host, app, log_dir):
     device.run_ssh('date', retries=20)
 
 
-def test_activate_device(device):
+def test_activate_device(device, device_host):
+    wait_for_platform_web(device_host) 
     response = device.activate()
     assert response.status_code == 200, response.text
 
