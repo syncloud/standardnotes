@@ -23,7 +23,8 @@ class Installer:
         self.log = logger.get_logger('{0}_installer'.format(APP_NAME))
         self.app_dir = paths.get_app_dir(APP_NAME)
         self.app_data_dir = paths.get_data_dir(APP_NAME)
-             
+        self.snap_data_dir = os.environ['SNAP_DATA']
+
     def install_config(self):
 
         home_folder = join('/home', USER_NAME)
@@ -34,26 +35,25 @@ class Installer:
         storage.init_storage(APP_NAME, USER_NAME)
 
         templates_path = join(self.app_dir, 'config.templates')
-        config_path = join(self.app_data_dir, 'config')
+        config_path = join(self.snap_data_dir, 'config')
 
         variables = {
             'app': APP_NAME,
             'app_dir': self.app_dir,
             'app_data_dir': self.app_data_dir,
-            'snap_data': os.environ['SNAP_DATA'],
+            'snap_data': self.snap_data_dir,
             'snap_common': os.environ['SNAP_COMMON']
         }
         gen.generate_files(templates_path, config_path, variables)
+        fs.chownpath(self.snap_data_dir, USER_NAME, recursive=True)
+        fs.chownpath(self.app_data_dir, USER_NAME, recursive=True)
 
     def install(self):
         self.install_config()
-         
-        fs.chownpath(self.app_data_dir, USER_NAME, recursive=True)
 
     def refresh(self):
         self.install_config()
-        fs.chownpath(self.app_data_dir, USER_NAME, recursive=True)
-
+        
     def configure(self):
         self.prepare_storage()
         install_file = join(self.app_data_dir, 'installed')
