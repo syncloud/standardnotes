@@ -54,7 +54,7 @@ def test_start(module_setup, device, device_host, app, log_dir):
 def test_activate_device(device):
     response = device.activate()
     assert response.status_code == 200, response.text
-
+    device.login()
 
 def test_install(app_archive_path, device_host, app_domain, device_password):
     local_install(device_host, device_password, app_archive_path)
