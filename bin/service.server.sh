@@ -10,7 +10,7 @@ fi
 case $1 in
 start)
     cd ${SNAP_DATA}/config
-    exec $DIR/bin/snandardfile
+    exec $DIR/bin/standardfile
     ;;
 *)
     echo "not valid command"
