@@ -1,4 +1,4 @@
-#!/snap/rocketchat/current/python/bin/python
+#!/snap/notes/current/python/bin/python
 
 from installer import Installer
 

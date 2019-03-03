@@ -67,5 +67,3 @@ class Installer:
         
     def prepare_storage(self):
         app_storage_dir = storage.init_storage(APP_NAME, USER_NAME)
-        
-     

@@ -36,7 +36,8 @@ coin --to ${BUILD_DIR} raw ${DOWNLOAD_URL}/python-${ARCH}.tar.gz
 ${BUILD_DIR}/python/bin/pip install -r ${DIR}/requirements.txt
 
 cd ${DIR}/build
-wget https://github.com/tectiv3/standardfile/releases/download/v${STANDARD_FILES_VERSION}/standardfile_${STANDARD_FILES_VERSION}_linux_${STANDARD_FILES_ARCH}.tar.gz --progress dot:giga
+DOWNLOAD_URL=https://github.com/tectiv3/standardfile/releases/download
+wget ${DOWNLOAD_URL}/v${STANDARD_FILES_VERSION}/standardfile_${STANDARD_FILES_VERSION}_linux_${STANDARD_FILES_ARCH}.tar.gz --progress dot:giga
 tar xf standardfile_${STANDARD_FILES_VERSION}_linux_${STANDARD_FILES_ARCH}.tar.gz -C ${BUILD_DIR}/bin
 
 cd ${DIR}

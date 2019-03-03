@@ -19,7 +19,7 @@ def module_setup(request, device, data_dir, platform_data_dir, app_dir, log_dir,
     request.addfinalizer(lambda: module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir, app))
 
 
-def module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir, app):
+def module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir):
     platform_log_dir = join(log_dir, 'platform_log')
     os.mkdir(platform_log_dir)
     device.scp_from_device('{0}/log/*'.format(platform_data_dir), platform_log_dir)
@@ -55,21 +55,25 @@ def test_activate_device(device):
     response = device.activate()
     assert response.status_code == 200, response.text
 
+
 def test_install(app_archive_path, device_host, app_domain, device_password):
     local_install(device_host, device_password, app_archive_path)
     wait_for_rest(requests.session(), app_domain, '/', 200, 10) 
 
-#def test_index(app_domain):
-#    response = requests.get('https://{0}'.format(app_domain), verify=False)                          
-#    assert response.status_code == 200, response.text
+
+def test_index(app_domain):
+    response = requests.get('https://{0}'.format(app_domain), verify=False)
+    assert response.status_code == 200, response.text
 
 
 def test_upgrade(app_archive_path, device_host, device_password):
     local_install(device_host, device_password, app_archive_path)
 
+
 def test_remove(device, app):
     response = device.app_remove(app)
     assert response.status_code == 200, response.text
+
 
 def test_reinstall(app_archive_path, device_host, device_password):
     local_install(device_host, device_password, app_archive_path)
