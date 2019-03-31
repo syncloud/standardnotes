@@ -13,6 +13,8 @@ export TMP=/tmp
 
 NAME=$1
 STANDARD_FILES_VERSION=0.4.1
+STANDARD_NOTES_WEB_VERSION=2.3.4
+NODE_VERSION=8.11.3
 ARCH=$(uname -m)
 STANDARD_FILES_ARCH=64-bit
 if [[ ${ARCH} == "armv7l" ]]; then
@@ -32,6 +34,7 @@ cd ${DIR}/build
 
 coin --to ${BUILD_DIR} raw ${DOWNLOAD_URL}/nginx-${ARCH}.tar.gz
 coin --to ${BUILD_DIR} raw ${DOWNLOAD_URL}/python-${ARCH}.tar.gz
+coin --to ${BUILD_DIR} raw ${DOWNLOAD_URL}/ruby-${ARCH}.tar.gz
 
 ${BUILD_DIR}/python/bin/pip install -r ${DIR}/requirements.txt
 
@@ -39,6 +42,28 @@ cd ${DIR}/build
 DOWNLOAD_URL=https://github.com/tectiv3/standardfile/releases/download
 wget ${DOWNLOAD_URL}/v${STANDARD_FILES_VERSION}/standardfile_${STANDARD_FILES_VERSION}_linux_${STANDARD_FILES_ARCH}.tar.gz --progress dot:giga
 tar xf standardfile_${STANDARD_FILES_VERSION}_linux_${STANDARD_FILES_ARCH}.tar.gz -C ${BUILD_DIR}/bin
+
+NODE_ARCH=${ARCH}
+if [[ ${ARCH} == "x86_64" ]]; then
+    NODE_ARCH=x64
+fi
+NODE_ARCHIVE=node-v${NODE_VERSION}-linux-${NODE_ARCH}
+wget https://nodejs.org/dist/v${NODE_VERSION}/${NODE_ARCHIVE}.tar.gz \
+    --progress dot:giga
+tar xzf ${NODE_ARCHIVE}.tar.gz
+mv ${NODE_ARCHIVE} ${DIR}/build/nodejs
+
+mv ${DIR}/build/nodejs/bin/npm ${DIR}/build/nodejs/bin/npm.js
+
+export PATH=${BUILD_DIR}/ruby/bin:${DIR}/build/nodejs/bin:$PATH
+export LD_LIBRARY_PATH=${DIR}/build/nodejs/lib:${BUILD_DIR}/ruby/lib
+export GEM_HOME=${BUILD_DIR}/ruby
+
+${DIR}/build/nodejs/bin/npm help
+
+wget https://github.com/standardnotes/web/archive/${STANDARD_NOTES_WEB_VERSION}.tar.gz
+
+${DIR}/build/nodejs/bin/npm run build
 
 cd ${DIR}
 
