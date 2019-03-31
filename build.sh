@@ -53,8 +53,6 @@ wget https://nodejs.org/dist/v${NODE_VERSION}/${NODE_ARCHIVE}.tar.gz \
 tar xzf ${NODE_ARCHIVE}.tar.gz
 mv ${NODE_ARCHIVE} ${DIR}/build/nodejs
 
-mv ${DIR}/build/nodejs/bin/npm ${DIR}/build/nodejs/bin/npm.js
-
 export PATH=${BUILD_DIR}/ruby/bin:${DIR}/build/nodejs/bin:$PATH
 export LD_LIBRARY_PATH=${DIR}/build/nodejs/lib:${BUILD_DIR}/ruby/lib
 export GEM_HOME=${BUILD_DIR}/ruby
