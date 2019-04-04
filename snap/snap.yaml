@@ -7,7 +7,21 @@ apps:
     plugs:
     - network
     - network-bind
+    start-timeout: 600s
     restart-condition: always
+
+  nginx:
+    command: bin/service.nginx.sh start
+    daemon: simple
+    plugs:
+    - network
+    - network-bind
+    restart-condition: always
+    pre-start-command: bin/service.nginx.sh pre-start
+    stop-command: bin/service.nginx.sh stop
+    reload-command: bin/service.nginx.sh reload
+    start-timeout: 600s
+    after: [server]
 
 
 confinement: strict

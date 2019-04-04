@@ -15,8 +15,8 @@ TMP_DIR = '/tmp/syncloud'
 
 
 @pytest.fixture(scope="session")
-def module_setup(request, device, data_dir, platform_data_dir, app_dir, log_dir, app):
-    request.addfinalizer(lambda: module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir, app))
+def module_setup(request, device, data_dir, platform_data_dir, app_dir, log_dir):
+    request.addfinalizer(lambda: module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir))
 
 
 def module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir):
