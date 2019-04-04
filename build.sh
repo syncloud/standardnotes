@@ -34,7 +34,6 @@ cd ${DIR}/build
 
 coin --to ${BUILD_DIR} raw ${DOWNLOAD_URL}/nginx-${ARCH}.tar.gz
 coin --to ${BUILD_DIR} raw ${DOWNLOAD_URL}/python-${ARCH}.tar.gz
-coin --to ${BUILD_DIR} raw ${DOWNLOAD_URL}/ruby-${ARCH}.tar.gz
 
 ${BUILD_DIR}/python/bin/pip install -r ${DIR}/requirements.txt
 

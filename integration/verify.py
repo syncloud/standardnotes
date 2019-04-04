@@ -34,7 +34,7 @@ def module_teardown(device, data_dir, platform_data_dir, app_dir, log_dir):
     device.run_ssh('ls -la /snap > {0}/snap.ls.log'.format(TMP_DIR), throw=False)    
     device.run_ssh('ls -la {0}/ > {1}/app.ls.log'.format(app_dir, TMP_DIR), throw=False)    
     device.run_ssh('ls -la {0}/ > {1}/data.ls.log'.format(data_dir, TMP_DIR), throw=False)    
-    device.run_ssh('ls -la {0}/notes/ > {1}/notes.ls.log'.format(app_dir, TMP_DIR), throw=False)  
+    device.run_ssh('ls -la {0}/web/ > {1}/nweb.ls.log'.format(data_dir, TMP_DIR), throw=False)  
     device.run_ssh('ls -la {0}/log/ > {1}/log.ls.log'.format(data_dir, TMP_DIR), throw=False)  
   
     app_log_dir = join(log_dir, 'log')
