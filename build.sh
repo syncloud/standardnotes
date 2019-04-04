@@ -13,7 +13,7 @@ export TMP=/tmp
 
 NAME=$1
 STANDARD_FILES_VERSION=0.4.1
-STANDARD_NOTES_WEB_VERSION=2.3.4
+STANDARD_NOTES_WEB_VERSION=3.0.7
 NODE_VERSION=8.11.3
 ARCH=$(uname -m)
 STANDARD_FILES_ARCH=64-bit
@@ -53,20 +53,17 @@ wget https://nodejs.org/dist/v${NODE_VERSION}/${NODE_ARCHIVE}.tar.gz \
 tar xzf ${NODE_ARCHIVE}.tar.gz
 mv ${NODE_ARCHIVE} ${DIR}/build/nodejs
 
-export PATH=${BUILD_DIR}/ruby/bin:${DIR}/build/nodejs/bin:$PATH
-export LD_LIBRARY_PATH=${DIR}/build/nodejs/lib:${BUILD_DIR}/ruby/lib
-export GEM_HOME=${BUILD_DIR}/ruby
+export PATH=${DIR}/build/nodejs/bin:$PATH
+export LD_LIBRARY_PATH=${DIR}/build/nodejs/lib
 
-${DIR}/build/nodejs/bin/npm help
-
-wget https://github.com/standardnotes/web/archive/${STANDARD_NOTES_WEB_VERSION}.tar.gz
-
-${DIR}/build/nodejs/bin/npm run build
+${DIR}/build/nodejs/bin/npm install standard-notes-web@${STANDARD_NOTES_WEB_VERSION}
 
 cd ${DIR}
 
 cp -r ${DIR}/config ${BUILD_DIR}/config.templates
 cp -r ${DIR}/hooks ${BUILD_DIR}
+cp -r ${DIR}/build/node_modules/standard-notes-web/dist ${BUILD_DIR}/web
+cp -r ${DIR}/web/index.html ${BUILD_DIR}/web
 
 mkdir ${DIR}/build/${NAME}/META
 echo ${NAME} >> ${DIR}/build/${NAME}/META/app
