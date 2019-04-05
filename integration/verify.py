@@ -65,9 +65,9 @@ def test_index(app_domain):
     response = requests.get('https://{0}'.format(app_domain), verify=False)
     assert response.status_code == 200, response.text
 
-def test_api(app_domain):
-    response = requests.get('https://{0}/api/'.format(app_domain), verify=False)
-    assert response.status_code == 200, response.text
+#def test_api(app_domain):
+#    response = requests.get('https://{0}/api/'.format(app_domain), verify=False)
+#    assert response.status_code == 200, response.text
 
 def test_upgrade(app_archive_path, device_host, device_password):
     local_install(device_host, device_password, app_archive_path)
