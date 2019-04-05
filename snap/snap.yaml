@@ -11,6 +11,7 @@ apps:
     restart-condition: always
 
   nginx:
+    user: notes
     command: bin/service.nginx.sh start
     daemon: simple
     plugs:
