@@ -1,3 +1,4 @@
 selenium==3.141.0
-requests==2.21.0
+requests==2.11.1
+urllib3==1.10
 syncloud-lib==126
