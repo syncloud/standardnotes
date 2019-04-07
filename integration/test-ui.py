@@ -24,3 +24,10 @@ def test_index(driver, app_domain):
     time.sleep(10)
   
     screenshots(driver, screenshot_dir, 'index')
+
+def test_extensions(driver, app_domain):
+
+    driver.find_element_by_xpath("//div[contains(text(),'Extensions')]").click()
+    time.sleep(10)
+  
+    screenshots(driver, screenshot_dir, 'extensions')
