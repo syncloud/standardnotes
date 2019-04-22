@@ -8,8 +8,6 @@ import requests
 from syncloudlib.integration.hosts import add_host_alias
 from syncloudlib.integration.installer import local_install, wait_for_rest
 
-DEFAULT_DEVICE_PASSWORD = 'syncloud'
-LOGS_SSH_PASSWORD = DEFAULT_DEVICE_PASSWORD
 DIR = dirname(__file__)
 TMP_DIR = '/tmp/syncloud'
 
@@ -68,6 +66,7 @@ def test_index(app_domain):
 #def test_api(app_domain):
 #    response = requests.get('https://{0}/api/'.format(app_domain), verify=False)
 #    assert response.status_code == 200, response.text
+
 
 def test_upgrade(app_archive_path, device_host, device_password):
     local_install(device_host, device_password, app_archive_path)
