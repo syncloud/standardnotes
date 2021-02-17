@@ -30,8 +30,6 @@ BUILD_DIR=${DIR}/build/${NAME}
 mkdir -p ${BUILD_DIR}
 cp -r ${DIR}/bin ${BUILD_DIR}
 
-cd ${DIR}/build
-
 wget --progress=dot:giga ${DOWNLOAD_URL}/python-${ARCH}.tar.gz
 tar xf python-${ARCH}.tar.gz
 mv python ${BUILD_DIR}
