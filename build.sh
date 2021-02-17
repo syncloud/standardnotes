@@ -63,7 +63,7 @@ git clone https://github.com/standardnotes/web.git
 cd web
 git checkout ${STANDARD_NOTES_WEB_VERSION}
 git submodule update --init --force --remote
-${DIR}/build/nodejs/bin/npm install
+${DIR}/build/nodejs/bin/npm install --unsafe-perm
 ${DIR}/build/nodejs/bin/npm install yarn --global
 yarn bundle
 cd ${DIR}
