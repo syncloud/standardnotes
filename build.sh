@@ -58,17 +58,20 @@ mv ${NODE_ARCHIVE} ${DIR}/build/nodejs
 export PATH=${DIR}/build/nodejs/bin:$PATH
 export LD_LIBRARY_PATH=${DIR}/build/nodejs/lib
 
-${DIR}/build/nodejs/bin/npm install standard-notes-web@${STANDARD_NOTES_WEB_VERSION}
+#${DIR}/build/nodejs/bin/npm install standard-notes-web@${STANDARD_NOTES_WEB_VERSION}
 git clone https://github.com/standardnotes/web.git
 cd web
 git checkout ${STANDARD_NOTES_WEB_VERSION}
 git submodule update --init --force --remote
-
+${DIR}/build/nodejs/bin/npm install
+${DIR}/build/nodejs/bin/npm install yarn --global
+yarn bundle
 cd ${DIR}
 
 cp -r ${DIR}/config ${BUILD_DIR}/config.templates
 cp -r ${DIR}/hooks ${BUILD_DIR}
-cp -r ${DIR}/build/node_modules/standard-notes-web/dist ${BUILD_DIR}/web
+#cp -r ${DIR}/build/node_modules/standard-notes-web/dist ${BUILD_DIR}/web
+cp -r ${DIR}/build/web/dist ${BUILD_DIR}/web
 cp -r ${DIR}/build/web/public/extensions ${BUILD_DIR}/web
 cp -r ${DIR}/web/index.html ${BUILD_DIR}/web
 
