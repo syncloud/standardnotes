@@ -1,6 +1,6 @@
 local name = "notes";
 
-local build(arch) = {
+local build(arch, testUI) = {
     kind: "pipeline",
     name: arch,
 
@@ -50,8 +50,8 @@ local build(arch) = {
               "cd integration",
               "py.test -x -s verify.py --domain=$DOMAIN --app-archive-path=$APP_ARCHIVE_PATH --device-host=device --app=" + name
             ]
-        },
-        if arch == "arm" then {} else
+        }] +
+        ] + ( if testUI then [
         {
             name: "test-ui",
             image: "syncloud/build-deps-" + arch,
@@ -66,7 +66,7 @@ local build(arch) = {
                 name: "shm",
                 path: "/dev/shm"
             }]
-        },
+        }] else [] ) + [
         {
             name: "upload",
             image: "syncloud/build-deps-" + arch,
@@ -143,6 +143,7 @@ local build(arch) = {
 };
 
 [
-    build("arm"),
-    build("amd64")
+    build("arm", false),
+    build("amd64", true)
+    build("arm64", false)
 ]
