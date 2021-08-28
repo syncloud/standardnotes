@@ -50,7 +50,7 @@ local build(arch, testUI) = {
               "cd integration",
               "py.test -x -s verify.py --domain=$DOMAIN --app-archive-path=$APP_ARCHIVE_PATH --device-host=device --app=" + name
             ]
-        }] +
+        }
         ] + ( if testUI then [
         {
             name: "test-ui",
