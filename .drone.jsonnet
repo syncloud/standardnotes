@@ -36,7 +36,7 @@ local build(arch) = {
             image: "debian:buster-slim",
             commands: [
                 "VERSION=$(cat version)",
-                "./package-python.sh"
+                "./package-python.sh",
                 "./package.sh " + name + " $VERSION"
             ]
         },
