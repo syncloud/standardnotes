@@ -144,6 +144,6 @@ local build(arch, testUI) = {
 
 [
     build("arm", false),
-    build("amd64", true)
+    build("amd64", true),
     build("arm64", false)
 ]
