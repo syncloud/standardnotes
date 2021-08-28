@@ -3,7 +3,10 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
-#${DIR}/build/nodejs/bin/npm install standard-notes-web@${STANDARD_NOTES_WEB_VERSION}
+STANDARD_NOTES_WEB_VERSION=develop
+
+BUILD_DIR=${DIR}/build/notes
+cd ${BUILD_DIR}
 git clone https://github.com/standardnotes/web.git
 cd web
 git checkout ${STANDARD_NOTES_WEB_VERSION}
