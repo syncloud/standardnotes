@@ -11,22 +11,37 @@ local build(arch) = {
     steps: [
         {
             name: "version",
-            image: "syncloud/build-deps-" + arch,
+            image: "debian:buster-slim",
             commands: [
                 "echo $(date +%y%m%d)$DRONE_BUILD_NUMBER > version",
                 "echo " + arch + "$DRONE_BRANCH > domain"
             ]
         },
         {
-            name: "build",
-            image: "syncloud/build-deps-" + arch,
+            name: "build-server",
+            image: "golang:1.15.6",
             commands: [
-                "VERSION=$(cat version)",
-                "./build.sh " + name + " $VERSION"
+                "./build-server.sh"
             ]
         },
         {
-            name: "test-intergation",
+            name: "build-web",
+            image: "node:16.1.0",
+            commands: [
+                "./build-web.sh"
+            ]
+        },
+        {
+            name: "package",
+            image: "debian:buster-slim",
+            commands: [
+                "VERSION=$(cat version)",
+                "./package-python.sh"
+                "./package.sh " + name + " $VERSION"
+            ]
+        },
+        {
+            name: "test-integration",
             image: "syncloud/build-deps-" + arch,
             commands: [
               "pip2 install -r dev_requirements.txt",
