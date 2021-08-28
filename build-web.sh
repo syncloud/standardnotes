@@ -3,7 +3,7 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
-STANDARD_NOTES_WEB_VERSION=develop
+STANDARD_NOTES_WEB_VERSION=3.8.18
 
 BUILD_DIR=${DIR}/build/notes
 cd ${BUILD_DIR}
@@ -11,8 +11,8 @@ git clone https://github.com/standardnotes/web.git
 cd web
 git checkout ${STANDARD_NOTES_WEB_VERSION}
 git submodule update --init --force --remote
-${DIR}/build/nodejs/bin/npm install --unsafe-perm
-${DIR}/build/nodejs/bin/npm install yarn --global
+npm install --unsafe-perm
+npm install yarn --global
 yarn bundle
 cd ${DIR}
 
