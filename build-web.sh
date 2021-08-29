@@ -1,10 +1,6 @@
-#!/bin/bash -ex
-
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd ${DIR}
+#!/bin/sh
 
 VERSION=3.8.18
-
 BUILD_DIR=${DIR}/build/notes
 cd ${BUILD_DIR}
 
