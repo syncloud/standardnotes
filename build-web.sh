@@ -14,6 +14,7 @@ cd web
 git checkout ${STANDARD_NOTES_WEB_VERSION}
 git submodule update --init --force --remote
 npm install
+npm install typescript
 npm install yarn
 yarn bundle
 
