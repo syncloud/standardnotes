@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VERSION=3.8.18
-DIR=$(dir)
+DIR=$(pwd)
 BUILD_DIR=$DIR/build/notes
 cd ${BUILD_DIR}
 
