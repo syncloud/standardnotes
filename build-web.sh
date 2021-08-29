@@ -1,7 +1,8 @@
 #!/bin/sh
 
 VERSION=3.8.18
-BUILD_DIR=${DIR}/build/notes
+DIR=$(dir)
+BUILD_DIR=$DIR/build/notes
 cd ${BUILD_DIR}
 
 apk add --update --no-cache alpine-sdk nodejs-current python2 git nodejs-npm yarn tzdata
