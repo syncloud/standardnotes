@@ -38,6 +38,16 @@ local build(arch, testUI) = {
                 "VERSION=$(cat version)",
                 "./package-python.sh",
                 "./package.sh " + name + " $VERSION"
+            ],
+            volumes: [
+            {
+                name: "docker",
+                path: "/usr/bin/docker"
+            },
+            {
+                name: "docker.sock",
+                path: "/var/run/docker.sock"
+            }
             ]
         },
         {
@@ -138,6 +148,18 @@ local build(arch, testUI) = {
         {
             name: "shm",
             temp: {}
+        },
+        {
+            name: "docker",
+            host: {
+                path: "/usr/bin/docker"
+            }
+        },
+        {
+            name: "docker.sock",
+            host: {
+                path: "/var/run/docker.sock"
+            }
         }
     ]
 };
