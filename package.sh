@@ -11,8 +11,10 @@ fi
 NAME=notes
 ARCH=$(uname -m)
 VERSION=$1
-
 DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download
+
+apt update
+apt -y install wget
 
 wget --progress=dot:giga ${DOWNLOAD_URL}/nginx/nginx-${ARCH}.tar.gz
 tar xf nginx-${ARCH}.tar.gz
