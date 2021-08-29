@@ -1,7 +1,6 @@
 #!/bin/bash -ex
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd ${DIR}
 
 if [[ -z "$1" ]]; then
     echo "usage $0 version"
@@ -12,6 +11,7 @@ NAME=notes
 ARCH=$(uname -m)
 VERSION=$1
 DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download
+BUILD_DIR=${DIR}/build/notes
 
 apt update
 apt -y install wget
