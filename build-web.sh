@@ -14,9 +14,7 @@ cd web
 git checkout ${STANDARD_NOTES_WEB_VERSION}
 git submodule update --init --force --remote
 npm install
-npm install typescript
-npm install yarn
-yarn bundle
+npm run bundle
 
 #cp -r ${DIR}/build/node_modules/standard-notes-web/dist ${BUILD_DIR}/web
 cp -r ${DIR}/build/web/dist ${BUILD_DIR}/web
