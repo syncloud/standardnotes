@@ -1,2 +1,6 @@
 venv
 .idea
+build
+.drone.yml
+domain
+version

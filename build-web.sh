@@ -8,7 +8,7 @@ STANDARD_NOTES_WEB_VERSION=3.8.18
 BUILD_DIR=${DIR}/build/notes
 cd ${BUILD_DIR}
 apt update
-apt -y install git python
+apt -y install git python-dev build-essential
 git clone https://github.com/standardnotes/web.git
 cd web
 git checkout ${STANDARD_NOTES_WEB_VERSION}
