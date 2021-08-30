@@ -27,7 +27,7 @@ local build(arch, testUI) = {
         },
         {
             name: "build-web",
-            image: "node:16.1.0-alpine3.13",
+            image: "node:14.17.5-alpine3.12",
             commands: [
                 "./build-web.sh"
             ]
