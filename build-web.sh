@@ -13,6 +13,6 @@ git submodule update --init --force --remote
 yarn install --pure-lockfile
 yarn bundle
 
-cp -r ${DIR}/build/web/dist ${BUILD_DIR}/web
-cp -r ${DIR}/build/web/public/* ${BUILD_DIR}/web
+cp -r dist ${BUILD_DIR}/web
+cp -r public/* ${BUILD_DIR}/web
 cp -r ${DIR}/web/index.html ${BUILD_DIR}/web
