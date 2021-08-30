@@ -6,8 +6,8 @@ BUILD_DIR=$DIR/build/notes
 cd ${BUILD_DIR}
 
 apk add --update --no-cache alpine-sdk python2 git yarn tzdata
-git clone https://github.com/standardnotes/web.git
-cd web
+git clone https://github.com/standardnotes/web.git web-src
+cd web-src
 git checkout ${VERSION}
 git submodule update --init --force --remote
 yarn install --pure-lockfile
