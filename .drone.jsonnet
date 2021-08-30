@@ -1,4 +1,5 @@
 local name = "notes";
+local browser = "firefox";
 
 local build(arch, testUI) = {
     kind: "pipeline",
@@ -71,8 +72,8 @@ local build(arch, testUI) = {
               "pip install -r dev_requirements.txt",
               "DOMAIN=$(cat domain)",
               "cd integration",
-              "xvfb-run -l --server-args='-screen 0, 1024x4096x24' py.test -x -s test-ui.py --ui-mode=desktop --domain=$DOMAIN --device-host=device --app=" + name,
-              "xvfb-run -l --server-args='-screen 0, 1024x4096x24' py.test -x -s test-ui.py --ui-mode=mobile --domain=$DOMAIN --device-host=device --app=" + name,
+              "py.test -x -s test-ui.py --ui-mode=mobile --domain=$DOMAIN --device-host=nextcloud.device.com --app=" + name + " --browser=" + browser,
+              "py.test -x -s test-ui.py --ui-mode=desktop --domain=$DOMAIN --device-host=nextcloud.device.com --app=" + name + " --browser=" + browser
             ],
             volumes: [{
                 name: "shm",
@@ -81,7 +82,7 @@ local build(arch, testUI) = {
         }] else [] ) + [
         {
             name: "upload",
-            image: "syncloud/build-deps-" + arch,
+            image: "python:3.8-slim-buster",
             environment: {
                 AWS_ACCESS_KEY_ID: {
                     from_secret: "AWS_ACCESS_KEY_ID"
@@ -93,7 +94,7 @@ local build(arch, testUI) = {
             commands: [
               "VERSION=$(cat version)",
               "PACKAGE=$(cat package.name)",
-              "pip2 install -r dev_requirements.txt",
+              "pip install syncloud-lib s3cmd",
               "syncloud-upload.sh " + name + " $DRONE_BRANCH $VERSION $PACKAGE"
             ]
         },
