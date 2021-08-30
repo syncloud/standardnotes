@@ -40,11 +40,8 @@ def module_setup(request, device, data_dir, platform_data_dir, app_dir, artifact
     request.addfinalizer(module_teardown)
 
 
-def test_start(module_setup, device, device_host, app, log_dir):
-    shutil.rmtree(log_dir, ignore_errors=True)
-    os.mkdir(log_dir)
-    add_host_alias(app, device_host)
-    print(check_output('date', shell=True))
+def test_start(module_setup, device, device_host, app, domain):
+    add_host_alias(app, device_host, domain)
     device.run_ssh('date', retries=20)
 
 

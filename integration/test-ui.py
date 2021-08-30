@@ -28,8 +28,8 @@ def module_setup(request, device, artifact_dir, ui_mode):
     request.addfinalizer(module_teardown)
 
 
-def test_start(app, device_host):
-    add_host_alias(app, device_host)
+def test_start(module_setup, app, domain, device_host):
+    add_host_alias(app, device_host, domain)
 
 
 def test_index(driver, app_domain, ui_mode, screenshot_dir):
