@@ -14,7 +14,7 @@ DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download
 BUILD_DIR=${DIR}/build/notes
 
 apt update
-apt -y install wget
+apt -y install wget squashfs-tools dpkg-dev
 
 wget --progress=dot:giga ${DOWNLOAD_URL}/nginx/nginx-${ARCH}.tar.gz
 tar xf nginx-${ARCH}.tar.gz

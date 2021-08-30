@@ -19,7 +19,7 @@ local build(arch, testUI) = {
         },
         {
             name: "build-server",
-            image: "golang:1.15.6",
+            image: "golang:1.16.4",
             commands: [
                 "./build-server.sh"
             ]
