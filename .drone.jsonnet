@@ -52,9 +52,10 @@ local build(arch, testUI) = {
         },
         {
             name: "test-integration",
-            image: "syncloud/build-deps-" + arch,
+            image: "python:3.8-slim-buster",
             commands: [
-              "pip2 install -r dev_requirements.txt",
+              "apt-get update && apt-get install -y sshpass openssh-client netcat rustc apache2-utils libffi-dev",
+              "pip install -r dev_requirements.txt",
               "APP_ARCHIVE_PATH=$(realpath $(cat package.name))",
               "DOMAIN=$(cat domain)",
               "cd integration",
@@ -64,9 +65,10 @@ local build(arch, testUI) = {
         ] + ( if testUI then [
         {
             name: "test-ui",
-            image: "syncloud/build-deps-" + arch,
+            image: "python:3.8-slim-buster",
             commands: [
-              "pip2 install -r dev_requirements.txt",
+              "apt-get update && apt-get install -y sshpass openssh-client libffi-dev",
+              "pip install -r dev_requirements.txt",
               "DOMAIN=$(cat domain)",
               "cd integration",
               "xvfb-run -l --server-args='-screen 0, 1024x4096x24' py.test -x -s test-ui.py --ui-mode=desktop --domain=$DOMAIN --device-host=device --app=" + name,
