@@ -35,7 +35,7 @@ class Installer:
       
         storage.init_storage(APP_NAME, USER_NAME)
 
-        templates_path = join(self.app_dir, 'config.templates')
+        templates_path = join(self.app_dir, 'config')
         config_path = join(self.snap_data_dir, 'config')
 
         variables = {

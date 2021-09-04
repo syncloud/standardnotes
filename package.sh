@@ -21,7 +21,7 @@ tar xf nginx-${ARCH}.tar.gz
 mv nginx ${BUILD_DIR}
 
 cp -r ${DIR}/bin ${BUILD_DIR}
-cp -r ${DIR}/config ${BUILD_DIR}/config.templates
+cp -r ${DIR}/config ${BUILD_DIR}
 cp -r ${DIR}/hooks ${BUILD_DIR}
 
 mkdir ${DIR}/build/${NAME}/META
