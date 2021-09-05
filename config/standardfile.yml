@@ -6,6 +6,6 @@ no_registration: false
 database_path: ""
 # Session used for authentication (since 004 and 20200115)
 session:
-  secret: {{ secret }}
+  secret: "{{ secret }}"
   access_token_ttl: 1440h # 60 days expressed in Golang's time.Duration format
   refresh_token_ttl: 8760h # 1 year
