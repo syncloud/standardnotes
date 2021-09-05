@@ -45,6 +45,7 @@ class Installer:
             'app_data_dir': self.app_data_dir,
             'snap_data': self.snap_data_dir,
             'snap_common': os.environ['SNAP_COMMON'],
+            'secret_key': uuid.uuid4().hex,
             'secret': uuid.uuid4().hex
         }
         gen.generate_files(templates_path, config_path, variables)

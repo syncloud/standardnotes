@@ -4,8 +4,10 @@ address: "/var/snap/notes/current/notes.socket"
 no_registration: false
 # Database folder path; empty value means current directory
 database_path: ""
+# Secret key used for JWT authentication (before 004 and 20200115)
+secret_key: {{ secret_key }}
 # Session used for authentication (since 004 and 20200115)
 session:
-  secret: "{{ secret }}"
+  secret: {{ secret }}
   access_token_ttl: 1440h # 60 days expressed in Golang's time.Duration format
   refresh_token_ttl: 8760h # 1 year
