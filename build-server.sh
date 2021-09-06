@@ -8,7 +8,7 @@ VERSION=0.6.6
 BUILD_DIR=${DIR}/build/notes
 mkdir -p ${BUILD_DIR}/bin
 cd ${DIR}/build
-wget -c https://github.com/cyberb/standardfile/archive/refs/heads/master.zip  --progress dot:giga
+wget -c https://github.com/cyberb/standardfile/archive/refs/heads/master.tar.gz  --progress dot:giga
 #wget -c https://github.com/mdouchement/standardfile/archive/refs/tags/v${VERSION}.tar.gz --progress dot:giga
 #tar xf v${VERSION}.tar.gz
 tar xf master.tar.gz
