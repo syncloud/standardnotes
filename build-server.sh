@@ -4,7 +4,6 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd ${DIR}
 
 VERSION=0.6.6
-VERSION=0.6.6
 BUILD_DIR=${DIR}/build/notes
 mkdir -p ${BUILD_DIR}/bin
 cd ${DIR}/build
