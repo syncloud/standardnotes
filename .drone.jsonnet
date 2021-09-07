@@ -60,7 +60,7 @@ local build(arch, testUI) = {
               "APP_ARCHIVE_PATH=$(realpath $(cat package.name))",
               "DOMAIN=$(cat domain)",
               "cd integration",
-              "py.test -x -s verify.py --domain=$DOMAIN --app-archive-path=$APP_ARCHIVE_PATH --device-host=device --app=" + name
+              "py.test -x -s verify.py --domain=$DOMAIN --app-archive-path=$APP_ARCHIVE_PATH --device-host=notes.device.com --app=" + name
             ]
         }
         ] + ( if testUI then [
@@ -72,8 +72,8 @@ local build(arch, testUI) = {
               "pip install -r dev_requirements.txt",
               "DOMAIN=$(cat domain)",
               "cd integration",
-              "py.test -x -s test-ui.py --ui-mode=mobile --domain=$DOMAIN --device-host=nextcloud.device.com --app=" + name + " --browser=" + browser,
-              "py.test -x -s test-ui.py --ui-mode=desktop --domain=$DOMAIN --device-host=nextcloud.device.com --app=" + name + " --browser=" + browser
+              "py.test -x -s test-ui.py --ui-mode=mobile --domain=$DOMAIN --device-host=notes.device.com --app=" + name + " --browser=" + browser,
+              "py.test -x -s test-ui.py --ui-mode=desktop --domain=$DOMAIN --device-host=notes.device.com --app=" + name + " --browser=" + browser
             ],
             volumes: [{
                 name: "shm",
@@ -121,7 +121,7 @@ local build(arch, testUI) = {
         }
     ],
     services: [{
-        name: "device",
+        name: "notes.device.com",
         image: "syncloud/systemd-" + arch,
         privileged: true,
         volumes: [
