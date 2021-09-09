@@ -55,7 +55,9 @@ def test_register(driver, ui_mode, screenshot_dir):
     driver.find_element_by_xpath("//input[@name='password']").send_keys('pass1234')
     driver.find_element_by_xpath("//input[@name='password_conf']").send_keys('pass1234')
 
-    driver.find_element_by_xpath("//div[contains(@class,'sk-label') and text()='Register']").click()
+    submit = "//div[contains(@class,'sk-label'
+    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, submit)))
+    driver.find_element_by_xpath(submit).click()
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.invisibility_of_element_located((By.XPATH, name)))
     screenshots(driver, screenshot_dir, 'registered-' + ui_mode)
 
