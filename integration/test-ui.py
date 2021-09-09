@@ -44,7 +44,7 @@ def test_register(driver, ui_mode, screenshot_dir):
     #btn = driver.find_element_by_xpath(account)
     #btn.click()
 
-    register = "//div[contains(@class,'sk-label') and text()='Register']"
+    register = "//button[text()='Register']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, register)))
     btn = driver.find_element_by_xpath(register)
     btn.click()
