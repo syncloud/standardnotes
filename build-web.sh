@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-VERSION=3.8.18
+VERSION=3.8.21
 DIR=$(pwd)
 BUILD_DIR=$DIR/build/notes
 cd ${BUILD_DIR}
