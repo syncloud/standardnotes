@@ -75,7 +75,7 @@ def test_logout(driver, ui_mode, screenshot_dir):
     btn = driver.find_element_by_xpath(logout)
     btn.click()
 
-    confirm = "//button[text()='Sign Out']"
+    confirm = "(//button[text()='Sign Out'])[2]"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, confirm)))
     btn = driver.find_element_by_xpath(confirm)
     screenshots(driver, screenshot_dir, 'signout-before-' + ui_mode)
