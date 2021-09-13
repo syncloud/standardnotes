@@ -85,15 +85,17 @@ def test_logout(driver, ui_mode, screenshot_dir):
 def test_login(driver, ui_mode, screenshot_dir):
     signin = "//button[text()='Sign In']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, signin)))
-    btn = driver.find_element_by_xpath(signin)
-    btn.click()
+    driver.find_element_by_xpath(signin).click()
 
     name = "//input[@name='email']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, name)))
     driver.find_element_by_xpath(name).send_keys('user@example.com')
     driver.find_element_by_xpath("//input[@name='password']").send_keys('pass1234')
 
-    driver.find_element_by_xpath("//div[contains(@class,'sk-label') and text()='Sign In']").click()
+    signin = "//div[contains(@class,'sk-label') and text()='Sign In']"
+    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, signin)))
+    driver.find_element_by_xpath(signin).click()
+
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.invisibility_of_element_located((By.XPATH, name)))
     screenshots(driver, screenshot_dir, 'logged-in')
 
