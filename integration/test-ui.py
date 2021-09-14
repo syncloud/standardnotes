@@ -24,7 +24,6 @@ def module_setup(request, device, artifact_dir, ui_mode, data_dir, driver):
         device.run_ssh('cp -r {0}/log/*.log {1}'.format(data_dir, TMP_DIR), throw=False)
         device.scp_from_device('{0}/*'.format(TMP_DIR), join(artifact_dir, ui_mode))
         check_output('chmod -R a+r {0}'.format(artifact_dir), shell=True)
-        driver.quit()
 
 
     request.addfinalizer(module_teardown)
@@ -106,6 +105,10 @@ def test_extensions(driver, screenshot_dir):
     time.sleep(10)
   
     screenshots(driver, screenshot_dir, 'extensions')
+
+
+def test_teardown(driver):
+    driver.quit()
 
 
 def wait_or_screenshot(driver, ui_mode, screenshot_dir, method):
