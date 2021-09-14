@@ -16,7 +16,7 @@ TMP_DIR = '/tmp/syncloud/ui'
 
 
 @pytest.fixture(scope="session")
-def module_setup(request, device, artifact_dir, ui_mode, data_dir, driver):
+def module_setup(request, device, artifact_dir, ui_mode, data_dir):
     def module_teardown():
         device.activated()
         device.run_ssh('mkdir -p {0}'.format(TMP_DIR), throw=False)
