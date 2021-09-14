@@ -65,7 +65,22 @@ local build(arch, testUI) = {
         }
         ] + ( if testUI then [
         {
-            name: "test-ui",
+            name: "test-ui-desktop",
+            image: "python:3.8-slim-buster",
+            commands: [
+              "apt-get update && apt-get install -y sshpass openssh-client libffi-dev",
+              "pip install -r dev_requirements.txt",
+              "DOMAIN=$(cat domain)",
+              "cd integration",
+              "py.test -x -s test-ui.py --ui-mode=desktop --domain=$DOMAIN --device-host=notes.device.com --app=" + name + " --browser=" + browser
+            ],
+            volumes: [{
+                name: "shm",
+                path: "/dev/shm"
+            }]
+        },
+        {
+            name: "test-ui-mobile",
             image: "python:3.8-slim-buster",
             commands: [
               "apt-get update && apt-get install -y sshpass openssh-client libffi-dev",
@@ -73,13 +88,13 @@ local build(arch, testUI) = {
               "DOMAIN=$(cat domain)",
               "cd integration",
               "py.test -x -s test-ui.py --ui-mode=mobile --domain=$DOMAIN --device-host=notes.device.com --app=" + name + " --browser=" + browser,
-              "py.test -x -s test-ui.py --ui-mode=desktop --domain=$DOMAIN --device-host=notes.device.com --app=" + name + " --browser=" + browser
             ],
             volumes: [{
                 name: "shm",
                 path: "/dev/shm"
             }]
-        }] else [] ) + [
+        }
+        ] else [] ) + [
         {
             name: "upload",
             image: "python:3.8-slim-buster",
