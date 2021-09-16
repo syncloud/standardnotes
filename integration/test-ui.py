@@ -39,7 +39,7 @@ def test_index(driver, app_domain, ui_mode, screenshot_dir):
     screenshots(driver, screenshot_dir, 'index-' + ui_mode)
 
 
-def test_register(driver, ui_mode, screenshot_dir, arch):
+def test_register(driver, ui_mode, screenshot_dir):
     account = "//div[text()='Account']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, account)))
     #btn = driver.find_element_by_xpath(account)
@@ -83,14 +83,14 @@ def test_logout(driver, ui_mode, screenshot_dir):
     btn.click()
 
 
-def test_login(driver, ui_mode, screenshot_dir, arch):
+def test_login(driver, ui_mode, screenshot_dir):
     signin = "//button[text()='Sign In']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, signin)))
     driver.find_element_by_xpath(signin).click()
 
     name = "//input[@name='email']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, name)))
-    driver.find_element_by_xpath(name).send_keys('{0}@example.com'.format(arch))
+    driver.find_element_by_xpath(name).send_keys('{0}@example.com'.format(ui_mode))
     driver.find_element_by_xpath("//input[@name='password']").send_keys('pass1234')
 
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, signin)))
