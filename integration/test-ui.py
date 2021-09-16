@@ -53,7 +53,7 @@ def test_register(driver, ui_mode, screenshot_dir):
 
     name = "//input[@name='email']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, name)))
-    driver.find_element_by_xpath(name).send_keys('{0}@example.com'.format(arch))
+    driver.find_element_by_xpath(name).send_keys('{0}@example.com'.format(ui_mode))
     driver.find_element_by_xpath("//input[@name='password']").send_keys('pass1234')
     driver.find_element_by_xpath("//input[@name='password_conf']").send_keys('pass1234')
 
