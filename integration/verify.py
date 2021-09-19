@@ -49,7 +49,6 @@ def test_start(module_setup, device, device_host, app, domain):
 
 
 def test_activate_device(device):
-    device.run_ssh('snap install platform')
     response = device.activate_custom()
     assert response.status_code == 200, response.text
 

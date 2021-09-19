@@ -1,7 +1,7 @@
 local name = "notes";
 local browser = "firefox";
 
-local build(arch, testUI) = {
+local build(arch, testUI, platform_image) = {
     kind: "pipeline",
     name: arch,
 
@@ -137,7 +137,7 @@ local build(arch, testUI) = {
     ],
     services: [{
         name: "notes.device.com",
-        image: "syncloud/bootstrap-buster-" + arch,
+        image: "syncloud/" + platform_image,
         privileged: true,
         volumes: [
             {
@@ -190,7 +190,7 @@ local build(arch, testUI) = {
 };
 
 [
-    build("arm", false),
-    build("amd64", true),
-    build("arm64", false)
+    build("arm", false, "platform-arm:21.01"),
+    build("amd64", true, "platform-amd64:21.01")
+    #build("arm64", false, "platform-arm64:21.01")
 ]
