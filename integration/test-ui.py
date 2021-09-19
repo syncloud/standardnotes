@@ -24,8 +24,6 @@ def module_setup(request, device, artifact_dir, ui_mode, data_dir):
         device.run_ssh('cp -r {0}/log/*.log {1}'.format(data_dir, TMP_DIR), throw=False)
         device.scp_from_device('{0}/*'.format(TMP_DIR), join(artifact_dir, ui_mode))
         check_output('chmod -R a+r {0}'.format(artifact_dir), shell=True)
-
-
     request.addfinalizer(module_teardown)
 
 

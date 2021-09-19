@@ -137,7 +137,7 @@ local build(arch, testUI) = {
     ],
     services: [{
         name: "notes.device.com",
-        image: "syncloud/systemd-" + arch,
+        image: "syncloud/bootstrap-buster-" + arch,
         privileged: true,
         volumes: [
             {
