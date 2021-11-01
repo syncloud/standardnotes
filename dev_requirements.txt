@@ -1,5 +1,0 @@
-pytest==6.2.4
-selenium==3.141.0
-requests==2.11.1
-urllib3==1.10
-syncloud-lib==252
