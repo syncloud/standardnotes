@@ -191,6 +191,6 @@ local build(arch, testUI, platform_image) = {
 
 [
     build("arm", false, "platform-arm:21.10"),
-    build("amd64", true, "platform-amd64:21.10")
+    build("amd64", true, "platform-amd64:21.10"),
     build("arm64", false, "platform-arm64:21.10")
 ]
