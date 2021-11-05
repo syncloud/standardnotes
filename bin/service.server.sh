@@ -9,8 +9,7 @@ fi
 
 case $1 in
 start)
-    cd ${SNAP_DATA}/config
-    exec $DIR/bin/standardfile
+    exec $DIR/bin/standardfile server -c /var/snap/notes/current/config/standardfile.yml
     ;;
 *)
     echo "not valid command"

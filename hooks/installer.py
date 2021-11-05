@@ -1,5 +1,6 @@
 import logging
 import os
+import uuid
 from os.path import join, isfile
 
 from syncloudlib import fs, linux, gen, logger
@@ -35,7 +36,7 @@ class Installer:
       
         storage.init_storage(APP_NAME, USER_NAME)
 
-        templates_path = join(self.app_dir, 'config.templates')
+        templates_path = join(self.app_dir, 'config')
         config_path = join(self.snap_data_dir, 'config')
 
         variables = {
@@ -43,7 +44,9 @@ class Installer:
             'app_dir': self.app_dir,
             'app_data_dir': self.app_data_dir,
             'snap_data': self.snap_data_dir,
-            'snap_common': os.environ['SNAP_COMMON']
+            'snap_common': os.environ['SNAP_COMMON'],
+            'secret_key': uuid.uuid4().hex,
+            'secret': uuid.uuid4().hex
         }
         gen.generate_files(templates_path, config_path, variables)
         fs.chownpath(self.snap_data_dir, USER_NAME, recursive=True)
