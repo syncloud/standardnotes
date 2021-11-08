@@ -1,6 +1,7 @@
 import logging
 import os
 import uuid
+from subprocess import check_output
 from os.path import join, isfile
 
 from syncloudlib import fs, linux, gen, logger
@@ -56,6 +57,12 @@ class Installer:
         self.install_config()
 
     def refresh(self):
+        old_db = '/var/snap/notes/current/database.sqlite'
+        old_db_bak = '/var/snap/notes/current/database.sqlite.bak'
+        new_db = '/var/snap/notes/current/standardfile.db'
+        if isfile(old_db):
+           check_output('/snap/notes/current/bin/sfc import {0} {1}'.format(old_db, new_db), shell=True)
+           shell.move(old_db, old_db_bak)
         self.install_config()
         
     def configure(self):
