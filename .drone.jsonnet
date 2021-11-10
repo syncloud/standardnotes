@@ -38,7 +38,7 @@ local build(arch, testUI, platform_image) = {
             commands: [
                 "VERSION=$(cat version)",
                 "./package-python.sh",
-                "./package.sh " + name + " $VERSION"
+                "./package.sh $VERSION"
             ],
             volumes: [
             {
