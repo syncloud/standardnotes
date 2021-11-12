@@ -1,6 +1,7 @@
 import logging
 import os
 import uuid
+import shutil
 from subprocess import check_output
 from os.path import join, isfile
 
@@ -62,7 +63,7 @@ class Installer:
         new_db = '/var/snap/notes/current/standardfile.db'
         if isfile(old_db):
            check_output('/snap/notes/current/bin/sfc import {0} {1}'.format(old_db, new_db), shell=True)
-           shell.move(old_db, old_db_bak)
+           shutil.move(old_db, old_db_bak)
         self.install_config()
         
     def configure(self):
