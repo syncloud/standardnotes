@@ -9,7 +9,7 @@ fi
 
 case $1 in
 start)
-    exec $DIR/bin/standardfile server -c /var/snap/notes/current/config/standardfile.yml
+    exec $DIR/bin/standardfile server -c /var/snap/standardnotes/current/config/standardfile.yml
     ;;
 *)
     echo "not valid command"

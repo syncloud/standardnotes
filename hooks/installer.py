@@ -8,7 +8,7 @@ from os.path import join, isfile
 from syncloudlib import fs, linux, gen, logger
 from syncloudlib.application import paths, storage
 
-APP_NAME = 'notes'
+APP_NAME = 'standardnotes'
 
 USER_NAME = APP_NAME
 DB_NAME = APP_NAME
@@ -58,12 +58,6 @@ class Installer:
         self.install_config()
 
     def refresh(self):
-        old_db = '/var/snap/notes/current/database.sqlite'
-        old_db_bak = '/var/snap/notes/current/database.sqlite.bak'
-        new_db = '/var/snap/notes/current/standardfile.db'
-        if isfile(old_db):
-           check_output('/snap/notes/current/bin/sfc import {0} {1}'.format(old_db, new_db), shell=True)
-           shutil.move(old_db, old_db_bak)
         self.install_config()
         
     def configure(self):

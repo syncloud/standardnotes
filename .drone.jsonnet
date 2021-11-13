@@ -1,4 +1,4 @@
-local name = "notes";
+local name = "standardnotes";
 local browser = "firefox";
 
 local build(arch, testUI, platform_image) = {

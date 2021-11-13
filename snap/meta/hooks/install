@@ -1,4 +1,4 @@
-#!/snap/notes/current/python/bin/python
+#!/snap/standardnotes/current/python/bin/python
 
 from os.path import join
 import os, sys

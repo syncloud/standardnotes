@@ -1,4 +1,4 @@
-#!/snap/notes/current/python/bin/python
+#!/snap/standardnotes/current/python/bin/python
 
 import os, sys
 sys.path.append(os.path.join(os.environ['SNAP'], 'hooks'))

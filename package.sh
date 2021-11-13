@@ -11,7 +11,7 @@ NAME=notes
 ARCH=$(uname -m)
 VERSION=$1
 DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download
-BUILD_DIR=${DIR}/build/notes
+BUILD_DIR=${DIR}/build/standardnotes
 
 apt update
 apt -y install wget squashfs-tools dpkg-dev libltdl7

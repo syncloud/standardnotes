@@ -7,7 +7,7 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-SOCKET=${SNAP_DATA}/notes.socket
+SOCKET=${SNAP_DATA}/standardnotes.socket
 
 case $1 in
 pre-start)
