@@ -3,7 +3,7 @@
 VERSION=3.8.21
 #VERSION=3.4.10
 DIR=$(pwd)
-BUILD_DIR=$DIR/build/notes
+BUILD_DIR=$DIR/build/standardnotes
 cd ${BUILD_DIR}
 
 apk add --update --no-cache alpine-sdk python2 git yarn tzdata
