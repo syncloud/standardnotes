@@ -7,11 +7,11 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-NAME=notes
+NAME=standardnotes
 ARCH=$(uname -m)
 VERSION=$1
 DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download
-BUILD_DIR=${DIR}/build/standardnotes
+BUILD_DIR=${DIR}/build/${NAME}
 
 apt update
 apt -y install wget squashfs-tools dpkg-dev libltdl7
