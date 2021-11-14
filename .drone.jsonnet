@@ -1,5 +1,4 @@
 local name = "standardnotes";
-local browser = "firefox";
 
 local build(arch, testUI, platform_image) = {
     kind: "pipeline",
@@ -15,7 +14,6 @@ local build(arch, testUI, platform_image) = {
             image: "debian:buster-slim",
             commands: [
                 "echo $(date +%y%m%d)$DRONE_BUILD_NUMBER > version",
-                "echo device.com > domain"
             ]
         },
         {
@@ -57,10 +55,9 @@ local build(arch, testUI, platform_image) = {
             commands: [
               "apt-get update && apt-get install -y sshpass openssh-client netcat rustc apache2-utils libffi-dev",
               "APP_ARCHIVE_PATH=$(realpath $(cat package.name))",
-              "DOMAIN=$(cat domain)",
               "cd integration",
               "pip install -r requirements.txt",
-              "py.test -x -s verify.py --domain=$DOMAIN --app-archive-path=$APP_ARCHIVE_PATH --device-host=notes.device.com --app=" + name
+              "py.test -x -s verify.py --app-archive-path=$APP_ARCHIVE_PATH --app=" + name
             ]
         }
         ] + ( if testUI then [
@@ -69,10 +66,9 @@ local build(arch, testUI, platform_image) = {
             image: "python:3.8-slim-buster",
             commands: [
               "apt-get update && apt-get install -y sshpass openssh-client libffi-dev",
-              "DOMAIN=$(cat domain)",
               "cd integration",
               "pip install -r requirements.txt",
-              "py.test -x -s test-ui.py --ui-mode=desktop --domain=$DOMAIN --device-host=notes.device.com --app=" + name + " --browser=" + browser
+              "py.test -x -s test-ui.py --ui-mode=desktop --app=" + name
             ],
             volumes: [{
                 name: "shm",
@@ -84,10 +80,9 @@ local build(arch, testUI, platform_image) = {
             image: "python:3.8-slim-buster",
             commands: [
               "apt-get update && apt-get install -y sshpass openssh-client libffi-dev",
-              "DOMAIN=$(cat domain)",
               "cd integration",
               "pip install -r requirements.txt",
-              "py.test -x -s test-ui.py --ui-mode=mobile --domain=$DOMAIN --device-host=notes.device.com --app=" + name + " --browser=" + browser,
+              "py.test -x -s test-ui.py --ui-mode=mobile --app=" + name
             ],
             volumes: [{
                 name: "shm",
@@ -136,7 +131,7 @@ local build(arch, testUI, platform_image) = {
         }
     ],
     services: [{
-        name: "notes.device.com",
+        name: app + ".device.com",
         image: "syncloud/" + platform_image,
         privileged: true,
         volumes: [
