@@ -1,7 +1,7 @@
 apps:
 
   server:
-    user: notes
+    user: standardnotes
     command: bin/service.server.sh start
     daemon: simple
     plugs:
@@ -11,7 +11,7 @@ apps:
     restart-condition: always
 
   nginx:
-    user: notes
+    user: standardnotes
     command: bin/service.nginx.sh start
     daemon: simple
     plugs:
