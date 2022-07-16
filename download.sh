@@ -1,11 +1,16 @@
-#!/bin/bash -ex
+#!/bin/bash -xe
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-cd ${DIR}
 
-VERSION=0.6.8
-BUILD_DIR=${DIR}/build/standardnotes
-mkdir -p ${BUILD_DIR}/bin
+VERSION=$1
+DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download
+ARCH=$(uname -m)
+BUILD_DIR=${DIR}/build/snap
+
+apt update
+apt -y install wget unzip
+
+mkdir -p $BUILD_DIR
 cd ${DIR}/build
 
 #wget -c https://github.com/cyberb/standardfile/archive/refs/heads/master.tar.gz  --progress dot:giga
@@ -14,12 +19,17 @@ cd ${DIR}/build
 
 wget -c https://github.com/mdouchement/standardfile/archive/refs/tags/v${VERSION}.tar.gz --progress dot:giga
 tar xf v${VERSION}.tar.gz
-cd standardfile-${VERSION}
+mv standardfile-${VERSION} standardfile
 
 #wget -c https://github.com/mdouchement/standardfile/archive/refs/heads/master.tar.gz  --progress dot:giga
 #tar xf master.tar.gz
 #cd standardfile-master
 
+wget --progress=dot:giga ${DOWNLOAD_URL}/nginx/nginx-${ARCH}.tar.gz
+tar xf nginx-${ARCH}.tar.gz
+mv nginx ${BUILD_DIR}
 
-go build -ldflags "-s -w -X main.version=${VERSION} -X main.revision=${DRONE_BUILD_NUMBER} -X main.date=$(date +%Y-%m-%d~%H:%M:%S)" -o ${BUILD_DIR}/bin/standardfile cmd/standardfile/main.go
-go build -ldflags "-s -w -X main.version=${VERSION} -X main.revision=${DRONE_BUILD_NUMBER} -X main.date=$(date +%Y-%m-%d~%H:%M:%S)" -o ${BUILD_DIR}/bin/sfc cmd/sfc/main.go
+wget --progress=dot:giga ${DOWNLOAD_URL}/openssl/openssl-${ARCH}.tar.gz
+tar xf openssl-${ARCH}.tar.gz
+mv openssl ${BUILD_DIR}
+R}

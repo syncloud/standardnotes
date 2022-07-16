@@ -3,12 +3,12 @@
 VERSION=3.8.21
 #VERSION=3.4.10
 DIR=$(pwd)
-BUILD_DIR=$DIR/build/standardnotes
-cd ${BUILD_DIR}
+BUILD_DIR=$DIR/build/snap
+cd ${DIR}/build
 
 apk add --update --no-cache alpine-sdk python2 git yarn tzdata
-git clone https://github.com/standardnotes/web.git web-src
-cd web-src
+git clone https://github.com/standardnotes/web.git src
+cd src
 git checkout ${VERSION}
 git submodule update --init --force --remote
 yarn install --pure-lockfile
