@@ -32,4 +32,3 @@ mv nginx ${BUILD_DIR}
 wget --progress=dot:giga ${DOWNLOAD_URL}/openssl/openssl-${ARCH}.tar.gz
 tar xf openssl-${ARCH}.tar.gz
 mv openssl ${BUILD_DIR}
-R}
