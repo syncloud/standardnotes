@@ -15,14 +15,10 @@ SNAP_DIR=${DIR}/build/snap
 apt update
 apt -y install squashfs-tools
 
-cp -r ${DIR}/bin/* ${SNAP_DIR}/bin
+cp -r ${DIR}/bin ${SNAP_DIR}
 cp -r ${DIR}/config ${SNAP_DIR}
 cp -r ${DIR}/hooks ${SNAP_DIR}
 cp -r ${DIR}/meta ${SNAP_DIR}
-
-mkdir ${SNAP_DIR}/META
-echo ${NAME} >> ${SNAP_DIR}/META/app
-echo ${VERSION} >> ${SNAP_DIR}/META/version
 
 echo "version: $VERSION" >> ${SNAP_DIR}/meta/snap.yaml
 echo "architectures:" >> ${SNAP_DIR}/meta/snap.yaml
