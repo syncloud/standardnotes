@@ -3,7 +3,7 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )
 cd ${DIR}
 VERSION=$1
-BUILD_DIR=${DIR}/build/snap/standardnotes
+BUILD_DIR=${DIR}/build/snap
 mkdir -p ${BUILD_DIR}/bin
 cd ${DIR}/build/standardfile
 
