@@ -1,5 +1,5 @@
 local name = "standardnotes";
-local version = "0.9.0";
+local version = "0.12.0";
 local browser = "firefox";
 
 local build(arch, test_ui) = [{

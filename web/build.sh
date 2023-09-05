@@ -1,7 +1,6 @@
 #!/bin/sh -e
 
-VERSION=3.8.21
-#VERSION=3.4.10
+VERSION=3.172.5
 DIR=$(pwd)
 BUILD_DIR=$DIR/build/snap
 cd ${DIR}/build
