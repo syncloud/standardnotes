@@ -27,7 +27,7 @@ local build(arch, test_ui) = [{
         },
          {
             name: "build-server",
-            image: "golang:1.16.4",
+            image: "golang:1.20.4",
             commands: [
                 "./server/build.sh " + version 
             ]
