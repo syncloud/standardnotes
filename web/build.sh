@@ -8,11 +8,11 @@ cd ${DIR}/build
 apk add --update --no-cache alpine-sdk python2 git yarn tzdata
 git clone https://github.com/standardnotes/web.git src
 cd src
-git checkout ${VERSION}
+git checkout @standardnotes/desktop@${VERSION}
 git submodule update --init --force --remote
 yarn install --pure-lockfile
-yarn bundle
+yarn build:web
 
-cp -r dist ${BUILD_DIR}/web
-cp -r public/* ${BUILD_DIR}/web
+cp -r packages/web/dist ${BUILD_DIR}/web
+#cp -r public/* ${BUILD_DIR}/web
 cp -r ${DIR}/web/index.html ${BUILD_DIR}/web
