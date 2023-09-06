@@ -10,7 +10,7 @@ git clone https://github.com/standardnotes/web.git src
 cd src
 git checkout @standardnotes/desktop@${VERSION}
 git submodule update --init --force --remote
-yarn install --pure-lockfile
+yarn install
 yarn build:web
 
 cp -r packages/web/dist ${BUILD_DIR}/web
