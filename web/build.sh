@@ -5,7 +5,7 @@ DIR=$(pwd)
 BUILD_DIR=$DIR/build/snap
 cd ${DIR}/build
 
-apk add --update --no-cache alpine-sdk python2 git yarn tzdata
+apk add --update --no-cache alpine-sdk python3 git yarn tzdata
 git clone https://github.com/standardnotes/web.git src
 cd src
 git checkout @standardnotes/desktop@${VERSION}
