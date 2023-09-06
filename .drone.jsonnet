@@ -2,7 +2,7 @@ local name = "standardnotes";
 local version = "0.12.0";
 local browser = "firefox";
 
-local build(arch, test_ui) = [{
+local build(arch, test_ui, dind) = [{
     kind: "pipeline",
     type: "docker",
     name: arch,
@@ -39,23 +39,20 @@ local build(arch, test_ui) = [{
                 "./web/build.sh"
             ]
         },
-{
+        {
             name: "package python",
-            image: "debian:buster-slim",
+            image: "docker:" + dind,
             commands: [
                 "./python/build.sh"
             ],
             volumes: [
                 {
-                    name: "docker",
-                    path: "/usr/bin/docker"
-                },
-                {
-                    name: "docker.sock",
-                    path: "/var/run/docker.sock"
+                    name: "dockersock",
+                    path: "/var/run"
                 }
             ]
         },
+
   
         {
             name: "package",
@@ -232,18 +229,10 @@ local build(arch, test_ui) = [{
                 temp: {}
             },
             {
-                name: "docker",
-                host: {
-                    path: "/usr/bin/docker"
-                }
+                name: "dockersock",
+                temp: {}
             },
-            {
-                name: "docker.sock",
-                host: {
-                    path: "/var/run/docker.sock"
-                }
-            }
-        ]
+     ]
     },
     {
          kind: "pipeline",
@@ -281,7 +270,7 @@ local build(arch, test_ui) = [{
      }
 ];
 
-build("amd64", true) +
-build("arm64", false) +
-build("arm", false)
+build("amd64", true, "20.10.21-dind") +
+build("arm64", false, "20.10.21-dind") +
+build("arm", false, "19.03.8-dind")
 
