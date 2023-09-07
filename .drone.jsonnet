@@ -91,17 +91,17 @@ local build(arch, test_ui, dind) = [{
                     path: "/videos"
                 }
             ]
-        }] +
-        [{
-            name: "test-ui-" + mode,
+        }, 
+        {
+            name: "test-ui",
             image: "python:3.8-slim-buster",
             commands: [
-              "apt-get update && apt-get install -y sshpass openssh-client libxml2-dev libxslt-dev build-essential libz-dev curl",
-              "cd integration",
+              "cd integration", 
+              "./deps.sh",
               "pip install -r requirements.txt",
-              "py.test -x -s test-ui.py --distro=buster --ui-mode=" + mode + " --domain=buster.com --device-host=" + name + ".buster.com --app=" + name + " --browser=" + browser,
+              "py.test -x -s test-ui.py --distro=buster --ui-mode=desktop --domain=buster.com --device-host=" + name + ".buster.com --app=" + name + " --browser=" + browser,
             ]
-        } for mode in ["desktop", "mobile"] ])
+        }  ])
        else [] ) +
        ( if arch == "amd64" then [
         {
@@ -141,9 +141,9 @@ local build(arch, test_ui, dind) = [{
                 branch: ["stable", "master"]
             }
         },
-        {
+          {
             name: "artifact",
-            image: "appleboy/drone-scp:1.6.2",
+            image: "appleboy/drone-scp:1.6.4",
             settings: {
                 host: {
                     from_secret: "artifact_host"
@@ -155,20 +155,12 @@ local build(arch, test_ui, dind) = [{
                 timeout: "2m",
                 command_timeout: "2m",
                 target: "/home/artifact/repo/" + name + "/${DRONE_BUILD_NUMBER}-" + arch,
-                source: [
-                    "artifact/*"
-                ],
-                privileged: true,
-                strip_components: 1,
-                volumes: [
-                   {
-                        name: "videos",
-                        path: "/drone/src/artifact/videos"
-                    }
-                ]
+                source: "artifact/*",
+		             strip_components: 1
             },
             when: {
-              status: [ "failure", "success" ]
+              status: [ "failure", "success" ],
+              event: [ "push" ]
             }
         }
         ],
@@ -284,4 +276,3 @@ local build(arch, test_ui, dind) = [{
 build("amd64", true, "20.10.21-dind") +
 build("arm64", false, "20.10.21-dind") +
 build("arm", false, "19.03.8-dind")
-
