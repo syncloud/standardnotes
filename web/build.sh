@@ -15,4 +15,4 @@ yarn build:web
 
 cp -r packages/web/dist ${BUILD_DIR}/web
 #cp -r public/* ${BUILD_DIR}/web
-cp -r ${DIR}/web/index.html ${BUILD_DIR}/web
+#cp -r ${DIR}/web/index.html ${BUILD_DIR}/web
