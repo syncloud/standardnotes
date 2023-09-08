@@ -45,10 +45,13 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
 
     selenium.find_by(By.XPATH, "//button[contains(., 'Create free account')]").click()
     
+    options = "//div[contains(., 'Advanced options')]"
+    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, options)))
+    selenium.find_by(By.XPATH, options).click()
+    
     name = "//input[@type='email']"
     selenium.find_by(By.XPATH, name).send_keys('{0}@example.com'.format(ui_mode))
     selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
-    selenium.find_by(By.XPATH, "//div[contains(., 'Advanced options')]").click()
     selenium.screenshot('new-account')
 
     submit = "//button[text()='Register']"
@@ -110,3 +113,4 @@ def wait_or_screenshot(driver, ui_mode, screenshot_dir, method):
     except Exception as e:
         screenshots(driver, screenshot_dir, 'exception-' + ui_mode)
         raise e
+e e
