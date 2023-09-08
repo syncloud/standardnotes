@@ -31,36 +31,30 @@ def test_start(module_setup, app, domain, device_host):
     add_host_alias(app, device_host, domain)
 
 
-def test_index(selenium, driver, app_domain, ui_mode, screenshot_dir):
+def test_index(selenium):
     selenium.open_app()
     selenium.find_by(By.XPATH, "//div[contains(.,'Sign in to sync your notes')]")
     selenium.screenshot('index')
 
 
-def test_register(driver, ui_mode, screenshot_dir):
-    account = "//div[text()='Account']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, account)))
+def test_register(selenium, driver, ui_mode, screenshot_dir):
+    # account = "//div[text()='Account']"
+    # wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, account)))
     #btn = driver.find_element_by_xpath(account)
     #btn.click()
 
-    register = "//button[text()='Register']" #version above 3.6
-    # register = "//div[contains(@class,'sk-label') and text()='Register']" #version below 3.6
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, register)))
-    btn = driver.find_element_by_xpath(register)
-    btn.click()
+    selenium.find_by(By.XPATH, "//button[contains(., 'Create free account')]").click()
+    selenium.find_by(By.XPATH, "//div[contains(., 'Advanced options')]").click()
 
-    name = "//input[@name='email']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, name)))
-    driver.find_element_by_xpath(name).send_keys('{0}@example.com'.format(ui_mode))
-    driver.find_element_by_xpath("//input[@name='password']").send_keys('pass1234')
-    driver.find_element_by_xpath("//input[@name='password_conf']").send_keys('pass1234')
+    name = "//input[@type='email']"
+    selenium.find_by(By.XPATH, name).send_keys('{0}@example.com'.format(ui_mode))
+    selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
+    selenium.screenshot('new-account')
 
-    submit = "//button[text()='Register']" #version above 3.6
-    # submit = "//div[contains(@class,'sk-label') and text()='Register']" #version below 3.6
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, submit)))
-    driver.find_element_by_xpath(submit).click()
+    submit = "//button[text()='Register']"
+    selenium.find_by(By.XPATH, submit).click()
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.invisibility_of_element_located((By.XPATH, name)))
-    screenshots(driver, screenshot_dir, 'registered-' + ui_mode)
+    selenium.screenshot('registered')
 
 
 def test_logout(driver, ui_mode, screenshot_dir):

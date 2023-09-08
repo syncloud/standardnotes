@@ -10,6 +10,7 @@ git clone https://github.com/standardnotes/web.git src
 cd src
 git checkout @standardnotes/desktop@${VERSION}
 git submodule update --init --force --remote
+cp $DIR/.env .
 yarn install
 yarn build:web
 
