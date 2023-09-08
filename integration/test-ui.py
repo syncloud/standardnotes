@@ -31,10 +31,10 @@ def test_start(module_setup, app, domain, device_host):
     add_host_alias(app, device_host, domain)
 
 
-def test_index(driver, app_domain, ui_mode, screenshot_dir):
-    driver.get("https://{0}".format(app_domain))
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, "//div[text()='All notes']")))
-    screenshots(driver, screenshot_dir, 'index-' + ui_mode)
+def test_index(selenium, driver, app_domain, ui_mode, screenshot_dir):
+    selenium.open_app()
+    selenium.find_by(By.XPATH, "//div[contains(.,'Sign in to sync your notes']")
+    selenium.screenshot('index')
 
 
 def test_register(driver, ui_mode, screenshot_dir):
