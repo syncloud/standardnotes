@@ -33,7 +33,7 @@ def test_start(module_setup, app, domain, device_host):
 
 def test_index(selenium, driver, app_domain, ui_mode, screenshot_dir):
     selenium.open_app()
-    selenium.find_by(By.XPATH, "//div[contains(.,'Sign in to sync your notes']")
+    selenium.find_by(By.XPATH, "//div[contains(.,'Sign in to sync your notes')]")
     selenium.screenshot('index')
 
 
