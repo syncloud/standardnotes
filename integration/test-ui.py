@@ -113,4 +113,3 @@ def wait_or_screenshot(driver, ui_mode, screenshot_dir, method):
     except Exception as e:
         screenshots(driver, screenshot_dir, 'exception-' + ui_mode)
         raise e
-e e
