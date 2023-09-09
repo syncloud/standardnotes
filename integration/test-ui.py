@@ -16,19 +16,22 @@ TMP_DIR = '/tmp/syncloud/ui'
 
 
 @pytest.fixture(scope="session")
-def module_setup(request, device, artifact_dir, ui_mode, data_dir):
-    def module_teardown():
-        device.activated()
-        device.run_ssh('mkdir -p {0}'.format(TMP_DIR), throw=False)
-        device.run_ssh('journalctl > {0}/journalctl.log'.format(TMP_DIR), throw=False)
-        device.run_ssh('cp -r {0}/log/*.log {1}'.format(data_dir, TMP_DIR), throw=False)
-        device.scp_from_device('{0}/*'.format(TMP_DIR), join(artifact_dir, ui_mode))
-        check_output('chmod -R a+r {0}'.format(artifact_dir), shell=True)
-    request.addfinalizer(module_teardown)
+def module_setup(request, device, artifact_dir, ui_mode, data_dir, app, domain, device_host, local):
+    if not local:
+        add_host_alias(app, device_host, domain)
+
+        def module_teardown():
+            device.activated()
+            device.run_ssh('mkdir -p {0}'.format(TMP_DIR), throw=False)
+            device.run_ssh('journalctl > {0}/journalctl.log'.format(TMP_DIR), throw=False)
+            device.run_ssh('cp -r {0}/log/*.log {1}'.format(data_dir, TMP_DIR), throw=False)
+            device.scp_from_device('{0}/*'.format(TMP_DIR), join(artifact_dir, ui_mode))
+            check_output('chmod -R a+r {0}'.format(artifact_dir), shell=True)
+        request.addfinalizer(module_teardown)
 
 
-def test_start(module_setup, app, domain, device_host):
-    add_host_alias(app, device_host, domain)
+def test_start(module_setup):
+    pass
 
 
 def test_index(selenium):
@@ -48,11 +51,16 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
     options = "//div[text()='Advanced options']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.element_to_be_clickable((By.XPATH, options)))
     selenium.find_by(By.XPATH, options).click()
-    
+    server = selenium.find_by(By.XPATH, "//label[text()='Custom sync server']/following::input").get_attribute('value')
+    selenium.screenshot('sync-server')
+    assert server == "/api"
+
     name = "//input[@type='email']"
     selenium.find_by(By.XPATH, name).send_keys('{0}@example.com'.format(ui_mode))
     selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
     selenium.screenshot('new-account')
+
+
 
     submit = "//button[text()='Register']"
     selenium.find_by(By.XPATH, submit).click()
