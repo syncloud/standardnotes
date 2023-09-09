@@ -45,8 +45,8 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
 
     selenium.find_by(By.XPATH, "//button[contains(., 'Create free account')]").click()
     
-    options = "//div[contains(., 'Advanced options')]"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, options)))
+    options = "//div[text()='Advanced options']"
+    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.element_to_be_clickable((By.XPATH, options)))
     selenium.find_by(By.XPATH, options).click()
     
     name = "//input[@type='email']"

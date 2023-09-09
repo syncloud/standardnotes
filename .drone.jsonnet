@@ -79,7 +79,7 @@ local build(arch, test_ui, dind) = [{
             detach: true,
             environment: {
                 "DISPLAY_CONTAINER_NAME": "selenium",
-                "PRESET": "-preset ultrafast -movflags faststart"
+                FILE_NAME: "video.mkv"
             },
             volumes: [
                 {
@@ -100,7 +100,11 @@ local build(arch, test_ui, dind) = [{
               "./deps.sh",
               "pip install -r requirements.txt",
               "py.test -x -s test-ui.py --distro=buster --ui-mode=desktop --domain=buster.com --device-host=" + name + ".buster.com --app=" + name + " --browser=" + browser,
-            ]
+            ],
+            volumes: [{
+                name: "videos",
+                path: "/videos"
+            }]
         }  ])
        else [] ) +
        ( if arch == "amd64" then [
