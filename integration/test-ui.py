@@ -60,11 +60,8 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
     selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
     selenium.screenshot('new-account')
 
-
-
-    submit = "//button[text()='Register']"
-    selenium.find_by(By.XPATH, submit).click()
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.invisibility_of_element_located((By.XPATH, name)))
+    selenium.find_by(By.XPATH, "//button[text()='Next']").click()
+    selenium.find_by(By.XPATH, "//button[text()='Register']").click()
     selenium.screenshot('registered')
 
 
