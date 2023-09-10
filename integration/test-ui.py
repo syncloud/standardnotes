@@ -40,11 +40,9 @@ def test_index(selenium):
 
 
 def test_register(selenium, driver, ui_mode, screenshot_dir):
-    selenium.find_by(By.XPATH, "//button[contains(., 'Create free account')]").click()
-    
-    options = "//div[text()='Advanced options']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.element_to_be_clickable((By.XPATH, options)))
-    selenium.find_by(By.XPATH, options).click()
+    selenium.click_by(By.XPATH, "//button[contains(., 'Create free account')]")
+
+    selenium.click_by(By.XPATH, "//div[text()='Advanced options']")
     server = selenium.find_by(By.XPATH, "//label[text()='Custom sync server']/following::input").get_attribute('value')
     selenium.screenshot('sync-server')
     assert server == "/api"
@@ -53,10 +51,10 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
     selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
     selenium.screenshot('new-account')
 
-    selenium.find_by(By.XPATH, "//button[text()='Next']").click()
+    selenium.click_by(By.XPATH, "//button[text()='Next']")
     selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
 
-    selenium.find_by(By.XPATH, "//button[contains(., 'Create account')]").click()
+    selenium.click_by(By.XPATH, "//button[contains(., 'Create account')]")
     selenium.screenshot('registered')
 
 
@@ -85,12 +83,3 @@ def test_login(selenium, ui_mode):
 
 def test_teardown(driver):
     driver.quit()
-
-
-def wait_or_screenshot(driver, ui_mode, screenshot_dir, method):
-    wait_driver = WebDriverWait(driver, 30)
-    try:
-        wait_driver.until(method)
-    except Exception as e:
-        screenshots(driver, screenshot_dir, 'exception-' + ui_mode)
-        raise e
