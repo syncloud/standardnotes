@@ -41,11 +41,6 @@ def test_index(selenium):
 
 
 def test_register(selenium, driver, ui_mode, screenshot_dir):
-    # account = "//div[text()='Account']"
-    # wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, account)))
-    #btn = driver.find_element_by_xpath(account)
-    #btn.click()
-
     selenium.find_by(By.XPATH, "//button[contains(., 'Create free account')]").click()
     
     options = "//div[text()='Advanced options']"
@@ -67,28 +62,17 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
     selenium.screenshot('registered')
 
 
-def test_logout(driver, ui_mode, screenshot_dir):
-    account = "//div[text()='Account']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, account)))
-    btn = driver.find_element_by_xpath(account)
-    btn.click()
+def test_logout(selenium, driver, ui_mode, screenshot_dir):
 
-    logout = "//a[text()='Sign out']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, logout)))
-    btn = driver.find_element_by_xpath(logout)
-    btn.click()
-
-    confirm = "(//button[text()='Sign Out'])[2]"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, confirm)))
-    btn = driver.find_element_by_xpath(confirm)
-    screenshots(driver, screenshot_dir, 'signout-before-' + ui_mode)
-    btn.click()
+    selenium.find_by(By.XPATH,"//div[text()='Account']").click()
+    selenium.find_by(By.XPATH, "//a[text()='Sign out']")
+    signout = selenium.find_by(By.XPATH, "(//button[text()='Sign Out'])[2]")
+    selenium.screenshot('signout-before')
+    signout.click()
 
 
-def test_login(driver, ui_mode, screenshot_dir):
-    signin = "//button[text()='Sign In']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, signin)))
-    driver.find_element_by_xpath(signin).click()
+def test_login(selenium, driver, ui_mode, screenshot_dir):
+    selenium.find_by(By.XPATH, "//button[text()='Sign In']").click()
 
     name = "//input[@name='email']"
     wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, name)))
