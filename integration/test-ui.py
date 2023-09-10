@@ -64,7 +64,7 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
 
 def test_logout(selenium, driver, ui_mode, screenshot_dir):
 
-    selenium.find_by(By.XPATH,"//div[text()='Account']").click()
+    selenium.click_by(By.XPATH,"//div[text()='Account']")
     selenium.find_by(By.XPATH, "//a[text()='Sign out']")
     signout = selenium.find_by(By.XPATH, "(//button[text()='Sign Out'])[2]")
     selenium.screenshot('signout-before')
