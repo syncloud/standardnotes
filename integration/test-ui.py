@@ -1,13 +1,12 @@
-import time
 from os.path import dirname, join
 from subprocess import check_output
 
 import pytest
-from syncloudlib.integration.hosts import add_host_alias
-from syncloudlib.integration.screenshots import screenshots
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from syncloudlib.integration.hosts import add_host_alias
+from syncloudlib.integration.screenshots import screenshots
 
 DIR = dirname(__file__)
 
@@ -50,8 +49,7 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
     selenium.screenshot('sync-server')
     assert server == "/api"
 
-    name = "//input[@type='email']"
-    selenium.find_by(By.XPATH, name).send_keys('{0}@example.com'.format(ui_mode))
+    selenium.find_by(By.XPATH, "//input[@type='email']").send_keys('{0}@example.com'.format(ui_mode))
     selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
     selenium.screenshot('new-account')
 
@@ -62,35 +60,27 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
     selenium.screenshot('registered')
 
 
-def test_logout(selenium, driver, ui_mode, screenshot_dir):
-
-    selenium.click_by(By.XPATH,"//div[text()='Account']")
-    selenium.find_by(By.XPATH, "//a[text()='Sign out']")
-    signout = selenium.find_by(By.XPATH, "(//button[text()='Sign Out'])[2]")
+def test_logout(selenium):
+    selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.find_by(By.XPATH, "//div[text()='Account']")
     selenium.screenshot('signout-before')
-    signout.click()
+    selenium.click_by(By.XPATH, "//button[text()='Sign out workspace']")
+    selenium.click_by(By.XPATH, "//button[text()='Sign Out']")
+    selenium.find_by(By.XPATH, "//span[text()='Offline']")
+    selenium.screenshot('signout-after')
 
 
-def test_login(selenium, driver, ui_mode, screenshot_dir):
-    selenium.find_by(By.XPATH, "//button[text()='Sign In']").click()
+def test_login(selenium, ui_mode):
+    selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.click_by(By.XPATH, "//button[text()='Sign in']")
 
-    name = "//input[@name='email']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, name)))
-    driver.find_element_by_xpath(name).send_keys('{0}@example.com'.format(ui_mode))
-    driver.find_element_by_xpath("//input[@name='password']").send_keys('pass1234')
+    selenium.find_by(By.XPATH, "//input[@type='email']").send_keys('{0}@example.com'.format(ui_mode))
+    selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
+    selenium.click_by(By.XPATH, "//button[text()='Sign in']")
 
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, signin)))
-    driver.find_element_by_xpath(signin).click()
-
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.invisibility_of_element_located((By.XPATH, name)))
-    screenshots(driver, screenshot_dir, 'logged-in')
-
-
-def test_extensions(driver, screenshot_dir):
-    driver.find_element_by_xpath("//div[contains(text(),'Extensions')]").click()
-    time.sleep(10)
-  
-    screenshots(driver, screenshot_dir, 'extensions')
+    selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
+    selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
 
 
 def test_teardown(driver):
