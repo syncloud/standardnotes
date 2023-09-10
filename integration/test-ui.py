@@ -61,7 +61,9 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
     selenium.screenshot('new-account')
 
     selenium.find_by(By.XPATH, "//button[text()='Next']").click()
-    selenium.find_by(By.XPATH, "//button[text()='Register']").click()
+    selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
+
+    selenium.find_by(By.XPATH, "//button[contains(@text(), 'Create account')]").click()
     selenium.screenshot('registered')
 
 
