@@ -1,2 +1,2 @@
 def login(selenium, device_user, device_password):
-    pass
+    selenium.screenshot('upgrade')
