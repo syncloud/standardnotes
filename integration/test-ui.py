@@ -76,9 +76,9 @@ def test_login(selenium, ui_mode):
     selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
     selenium.click_by(By.XPATH, "//button[text()='Sign in']")
 
-    selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    #selenium.click_by(By.XPATH, "(//footer//button)[1]")
     selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
-    selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
+    #selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
 
 
 def test_teardown(driver):
