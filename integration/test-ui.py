@@ -78,6 +78,7 @@ def test_login(selenium, ui_mode):
     selenium.click_by(By.XPATH, "//button[text()='Sign in']")
     selenium.invisible_by(By.XPATH, "//button[text()='Sign in']")
     selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.screenshot('test')
     selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
     #selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
 
