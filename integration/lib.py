@@ -13,5 +13,3 @@ def login(selenium, device_user, device_password):
     selenium.screenshot('test-2')
     #selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
 
-    
-elenium.screenshot('upgrade')
