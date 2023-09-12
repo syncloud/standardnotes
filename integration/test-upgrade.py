@@ -37,6 +37,8 @@ def test_upgrade(device, device_user, device_password, device_host, app_archive_
 
 def test_login(selenium, ui_mode):
     selenium.open_app()
-    selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.find_by(By.XPATH, "//div[contains(.,'Sign in to sync your notes')]")
+    selenium.screenshot('upgrade-login')
+    # selenium.click_by(By.XPATH, "(//footer//button)[1]")
     lib.login(selenium, ui_mode)
     selenium.screenshot('upgrade')
