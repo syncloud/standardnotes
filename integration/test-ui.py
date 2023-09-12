@@ -59,7 +59,7 @@ def test_register(selenium, driver, ui_mode, screenshot_dir):
     selenium.screenshot('registered')
 
 
-def test_logout(selenium):
+def test_logout(selenium, ui_mode):
     selenium.click_by(By.XPATH, "(//footer//button)[1]")
     selenium.find_by(By.XPATH, "//div[text()='Account']")
     selenium.screenshot('signout-before')
@@ -69,9 +69,9 @@ def test_logout(selenium):
     selenium.screenshot('signout-after')
 
 
-def test_login(selenium):
+def test_login(selenium, ui_mode):
     #selenium.click_by(By.XPATH, "(//footer//button)[1]")
-    lib.login(selenium)
+    lib.login(selenium, ui_mode)
 
 
 def test_teardown(driver):
