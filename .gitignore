@@ -4,3 +4,4 @@ build
 .drone.yml
 domain
 version
+artifact

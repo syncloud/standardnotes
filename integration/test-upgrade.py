@@ -2,6 +2,7 @@ import pytest
 from subprocess import check_output
 from syncloudlib.integration.hosts import add_host_alias
 import requests
+from selenium.webdriver.common.by import By
 from integration import lib
 from syncloudlib.integration.installer import local_install, wait_for_installer
 from syncloudlib.http import wait_for_rest
@@ -34,5 +35,22 @@ def test_upgrade(device, device_user, device_password, device_host, app_archive_
     wait_for_rest(requests.session(), "https://{0}".format(app_domain), 200, 10)
 
 
-def test_login(selenium, device_user, device_password):
-    lib.login(selenium, device_user, device_password)
+def test_login(selenium, ui_mode):
+    selenium.open_app()
+    selenium.find_by(By.XPATH, "//div[contains(.,'Sign in to sync your notes')]")
+    #selenium.invisible_by(By.XPATH, "//button[text()='Sign in']")
+    selenium.screenshot('upgrade-login')
+    #selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.click_by(By.XPATH, "//button[text()='Sign in']")
+
+    #selenium.find_by(By.XPATH, "//input[@type='email']").send_keys('{0}@example.com'.format(ui_mode))
+    #selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
+    #selenium.click_by(By.XPATH, "//button[text()='Sign in']")
+    #selenium.invisible_by(By.XPATH, "//button[text()='Sign in']")
+    #selenium.screenshot('test-1')
+    #selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    #selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
+    #selenium.screenshot('test-2')
+    #selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
+
+    selenium.screenshot('upgrade')

@@ -1,14 +1,13 @@
-import time
 from os.path import dirname, join
 from subprocess import check_output
 
 import pytest
-from syncloudlib.integration.hosts import add_host_alias
-from syncloudlib.integration.screenshots import screenshots
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
+from syncloudlib.integration.hosts import add_host_alias
+from syncloudlib.integration.screenshots import screenshots
+from integration import lib
 DIR = dirname(__file__)
 
 
@@ -16,103 +15,75 @@ TMP_DIR = '/tmp/syncloud/ui'
 
 
 @pytest.fixture(scope="session")
-def module_setup(request, device, artifact_dir, ui_mode, data_dir):
-    def module_teardown():
-        device.activated()
-        device.run_ssh('mkdir -p {0}'.format(TMP_DIR), throw=False)
-        device.run_ssh('journalctl > {0}/journalctl.log'.format(TMP_DIR), throw=False)
-        device.run_ssh('cp -r {0}/log/*.log {1}'.format(data_dir, TMP_DIR), throw=False)
-        device.scp_from_device('{0}/*'.format(TMP_DIR), join(artifact_dir, ui_mode))
-        check_output('chmod -R a+r {0}'.format(artifact_dir), shell=True)
-    request.addfinalizer(module_teardown)
+def module_setup(request, device, artifact_dir, ui_mode, data_dir, app, domain, device_host, local):
+    if not local:
+        add_host_alias(app, device_host, domain)
+
+        def module_teardown():
+            device.activated()
+            device.run_ssh('mkdir -p {0}'.format(TMP_DIR), throw=False)
+            device.run_ssh('journalctl > {0}/journalctl.log'.format(TMP_DIR), throw=False)
+            device.run_ssh('cp -r {0}/log/*.log {1}'.format(data_dir, TMP_DIR), throw=False)
+            device.scp_from_device('{0}/*'.format(TMP_DIR), join(artifact_dir, ui_mode))
+            check_output('cp /videos/* {0}'.format(artifact_dir), shell=True)
+            check_output('chmod -R a+r {0}'.format(artifact_dir), shell=True)
+        request.addfinalizer(module_teardown)
 
 
-def test_start(module_setup, app, domain, device_host):
-    add_host_alias(app, device_host, domain)
+def test_start(module_setup):
+    pass
 
 
-def test_index(driver, app_domain, ui_mode, screenshot_dir):
-    driver.get("https://{0}".format(app_domain))
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, "//div[text()='All notes']")))
-    screenshots(driver, screenshot_dir, 'index-' + ui_mode)
+def test_index(selenium):
+    selenium.open_app()
+    selenium.find_by(By.XPATH, "//div[contains(.,'Sign in to sync your notes')]")
+    selenium.screenshot('index')
 
 
-def test_register(driver, ui_mode, screenshot_dir):
-    account = "//div[text()='Account']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, account)))
-    #btn = driver.find_element_by_xpath(account)
-    #btn.click()
+def test_register(selenium, driver, ui_mode, screenshot_dir):
+    selenium.click_by(By.XPATH, "//button[contains(., 'Create free account')]")
 
-    register = "//button[text()='Register']" #version above 3.6
-    # register = "//div[contains(@class,'sk-label') and text()='Register']" #version below 3.6
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, register)))
-    btn = driver.find_element_by_xpath(register)
-    btn.click()
+    selenium.click_by(By.XPATH, "//div[text()='Advanced options']")
+    server = selenium.find_by(By.XPATH, "//label[text()='Custom sync server']/following::input").get_attribute('value')
+    selenium.screenshot('sync-server')
+    assert server == "/api"
 
-    name = "//input[@name='email']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, name)))
-    driver.find_element_by_xpath(name).send_keys('{0}@example.com'.format(ui_mode))
-    driver.find_element_by_xpath("//input[@name='password']").send_keys('pass1234')
-    driver.find_element_by_xpath("//input[@name='password_conf']").send_keys('pass1234')
+    selenium.find_by(By.XPATH, "//input[@type='email']").send_keys('{0}@example.com'.format(ui_mode))
+    selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
+    selenium.screenshot('new-account')
 
-    submit = "//button[text()='Register']" #version above 3.6
-    # submit = "//div[contains(@class,'sk-label') and text()='Register']" #version below 3.6
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, submit)))
-    driver.find_element_by_xpath(submit).click()
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.invisibility_of_element_located((By.XPATH, name)))
-    screenshots(driver, screenshot_dir, 'registered-' + ui_mode)
+    selenium.click_by(By.XPATH, "//button[text()='Next']")
+    selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
+
+    selenium.click_by(By.XPATH, "//button[contains(., 'Create account')]")
+    selenium.screenshot('registered')
 
 
-def test_logout(driver, ui_mode, screenshot_dir):
-    account = "//div[text()='Account']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, account)))
-    btn = driver.find_element_by_xpath(account)
-    btn.click()
-
-    logout = "//a[text()='Sign out']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, logout)))
-    btn = driver.find_element_by_xpath(logout)
-    btn.click()
-
-    confirm = "(//button[text()='Sign Out'])[2]"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, confirm)))
-    btn = driver.find_element_by_xpath(confirm)
-    screenshots(driver, screenshot_dir, 'signout-before-' + ui_mode)
-    btn.click()
+def test_logout(selenium, ui_mode):
+    selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.find_by(By.XPATH, "//div[text()='Account']")
+    selenium.screenshot('signout-before')
+    selenium.click_by(By.XPATH, "//button[text()='Sign out workspace']")
+    selenium.click_by(By.XPATH, "//button[text()='Sign Out']")
+    selenium.find_by(By.XPATH, "//span[text()='Offline']")
+    selenium.screenshot('signout-after')
 
 
-def test_login(driver, ui_mode, screenshot_dir):
-    signin = "//button[text()='Sign In']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, signin)))
-    driver.find_element_by_xpath(signin).click()
+def test_login(selenium, ui_mode):
+    #selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.click_by(By.XPATH, "//button[text()='Sign in']")
 
-    name = "//input[@name='email']"
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, name)))
-    driver.find_element_by_xpath(name).send_keys('{0}@example.com'.format(ui_mode))
-    driver.find_element_by_xpath("//input[@name='password']").send_keys('pass1234')
+    selenium.find_by(By.XPATH, "//input[@type='email']").send_keys('{0}@example.com'.format(ui_mode))
+    selenium.find_by(By.XPATH, "//input[@type='password']").send_keys('pass1234')
+    selenium.click_by(By.XPATH, "//button[text()='Sign in']")
+    selenium.invisible_by(By.XPATH, "//button[text()='Sign in']")
+    selenium.screenshot('test-1')
+    selenium.click_by(By.XPATH, "(//footer//button)[1]")
+    selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
+    selenium.screenshot('test-2')
+    #selenium.find_by(By.XPATH, "//div[contains(text(), 'signed in as')]")
 
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.presence_of_element_located((By.XPATH, signin)))
-    driver.find_element_by_xpath(signin).click()
-
-    wait_or_screenshot(driver, ui_mode, screenshot_dir, EC.invisibility_of_element_located((By.XPATH, name)))
-    screenshots(driver, screenshot_dir, 'logged-in')
-
-
-def test_extensions(driver, screenshot_dir):
-    driver.find_element_by_xpath("//div[contains(text(),'Extensions')]").click()
-    time.sleep(10)
-  
-    screenshots(driver, screenshot_dir, 'extensions')
 
 
 def test_teardown(driver):
     driver.quit()
-
-
-def wait_or_screenshot(driver, ui_mode, screenshot_dir, method):
-    wait_driver = WebDriverWait(driver, 30)
-    try:
-        wait_driver.until(method)
-    except Exception as e:
-        screenshots(driver, screenshot_dir, 'exception-' + ui_mode)
-        raise e

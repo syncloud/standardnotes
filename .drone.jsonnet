@@ -1,8 +1,8 @@
 local name = "standardnotes";
-local version = "0.9.0";
+local version = "0.12.0";
 local browser = "firefox";
 
-local build(arch, test_ui) = [{
+local build(arch, test_ui, dind) = [{
     kind: "pipeline",
     type: "docker",
     name: arch,
@@ -27,35 +27,32 @@ local build(arch, test_ui) = [{
         },
          {
             name: "build-server",
-            image: "golang:1.16.4",
+            image: "golang:1.20.4",
             commands: [
                 "./server/build.sh " + version 
             ]
         },
         {
             name: "build-web",
-            image: "node:14.17.5-alpine3.12",
+            image: "node:18.6.0-alpine3.15",
             commands: [
                 "./web/build.sh"
             ]
         },
-{
+        {
             name: "package python",
-            image: "debian:buster-slim",
+            image: "docker:" + dind,
             commands: [
                 "./python/build.sh"
             ],
             volumes: [
                 {
-                    name: "docker",
-                    path: "/usr/bin/docker"
-                },
-                {
-                    name: "docker.sock",
-                    path: "/var/run/docker.sock"
+                    name: "dockersock",
+                    path: "/var/run"
                 }
             ]
         },
+
   
         {
             name: "package",
@@ -82,7 +79,7 @@ local build(arch, test_ui) = [{
             detach: true,
             environment: {
                 "DISPLAY_CONTAINER_NAME": "selenium",
-                "PRESET": "-preset ultrafast -movflags faststart"
+                FILE_NAME: "video.mkv"
             },
             volumes: [
                 {
@@ -94,17 +91,21 @@ local build(arch, test_ui) = [{
                     path: "/videos"
                 }
             ]
-        }] +
-        [{
-            name: "test-ui-" + mode,
+        }, 
+        {
+            name: "test-ui",
             image: "python:3.8-slim-buster",
             commands: [
-              "apt-get update && apt-get install -y sshpass openssh-client libxml2-dev libxslt-dev build-essential libz-dev curl",
-              "cd integration",
+              "cd integration", 
+              "./deps.sh",
               "pip install -r requirements.txt",
-              "py.test -x -s test-ui.py --distro=buster --ui-mode=" + mode + " --domain=buster.com --device-host=" + name + ".buster.com --app=" + name + " --browser=" + browser,
-            ]
-        } for mode in ["desktop", "mobile"] ])
+              "py.test -x -s test-ui.py --distro=buster --ui-mode=desktop --domain=buster.com --device-host=" + name + ".buster.com --app=" + name + " --browser=" + browser,
+            ],
+            volumes: [{
+                name: "videos",
+                path: "/videos"
+            }]
+        }  ])
        else [] ) +
        ( if arch == "amd64" then [
         {
@@ -144,9 +145,9 @@ local build(arch, test_ui) = [{
                 branch: ["stable", "master"]
             }
         },
-        {
+          {
             name: "artifact",
-            image: "appleboy/drone-scp:1.6.2",
+            image: "appleboy/drone-scp:1.6.4",
             settings: {
                 host: {
                     from_secret: "artifact_host"
@@ -158,20 +159,12 @@ local build(arch, test_ui) = [{
                 timeout: "2m",
                 command_timeout: "2m",
                 target: "/home/artifact/repo/" + name + "/${DRONE_BUILD_NUMBER}-" + arch,
-                source: [
-                    "artifact/*"
-                ],
-                privileged: true,
-                strip_components: 1,
-                volumes: [
-                   {
-                        name: "videos",
-                        path: "/drone/src/artifact/videos"
-                    }
-                ]
+                source: "artifact/*",
+		             strip_components: 1
             },
             when: {
-              status: [ "failure", "success" ]
+              status: [ "failure", "success" ],
+              event: [ "push" ]
             }
         }
         ],
@@ -182,6 +175,17 @@ local build(arch, test_ui) = [{
           ]
         },
         services: [
+ {
+            name: "docker",
+            image: "docker:" + dind,
+            privileged: true,
+            volumes: [
+                {
+                    name: "dockersock",
+                    path: "/var/run"
+                }
+            ]
+        },
             {
                 name: name + ".buster.com",
                 image: "syncloud/platform-buster-" + arch + ":22.01",
@@ -232,18 +236,10 @@ local build(arch, test_ui) = [{
                 temp: {}
             },
             {
-                name: "docker",
-                host: {
-                    path: "/usr/bin/docker"
-                }
+                name: "dockersock",
+                temp: {}
             },
-            {
-                name: "docker.sock",
-                host: {
-                    path: "/var/run/docker.sock"
-                }
-            }
-        ]
+     ]
     },
     {
          kind: "pipeline",
@@ -281,7 +277,5 @@ local build(arch, test_ui) = [{
      }
 ];
 
-build("amd64", true) +
-build("arm64", false) +
-build("arm", false)
-
+build("amd64", true, "20.10.21-dind") +
+build("arm64", false, "20.10.21-dind")
