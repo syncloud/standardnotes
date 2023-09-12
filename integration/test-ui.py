@@ -69,9 +69,9 @@ def test_logout(selenium):
     selenium.screenshot('signout-after')
 
 
-def test_login(selenium, ui_mode):
+def test_login(selenium):
     #selenium.click_by(By.XPATH, "(//footer//button)[1]")
-    lib.login(selenium, device_user, device_password)
+    lib.login(selenium)
 
 
 def test_teardown(driver):

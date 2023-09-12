@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-def login(selenium, device_user, device_password):
+def login(selenium):
     selenium.click_by(By.XPATH, "//button[text()='Sign in']")
 
     selenium.find_by(By.XPATH, "//input[@type='email']").send_keys('{0}@example.com'.format(ui_mode))
