@@ -2,6 +2,7 @@ import pytest
 from subprocess import check_output
 from syncloudlib.integration.hosts import add_host_alias
 import requests
+from selenium.webdriver.common.by import By
 from integration import lib
 from syncloudlib.integration.installer import local_install, wait_for_installer
 from syncloudlib.http import wait_for_rest
